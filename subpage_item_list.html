@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>
+  <script src="./js/vendor/modernizr.custom.min.js"></script>
+  <script src="./js/vendor/jquery-1.10.2.min.js"></script>
+  <script src="./js/vendor/jquery.ba-throttle-debounce.min.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+
+  <link rel="stylesheet" href="swiper-5.4.5/package/css/swiper.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.1/css/all.css">
+
+</head>
+
+<body>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font: 18px "nbg";
+    }
+
+    a {
+      text-decoration: none;
+      color: #201f25;
+    }
+
+    li {
+      list-style-type: none;
+    }
+
+    body {
+      overflow-x: hidden;
+      color: #4F4F4F;
+      font-family: "nbg"
+    }
+
+    body,
+    html {
+      width: 100%;
+      height: 100%;
+    }
+
+    @font-face {
+      font-family: "nbg";
+      src: url("font/NanumBarunGothic.ttf");
+    }
+
+    .page-header {
+      width: 100%;
+      height: 240px;
+      padding-top: 40px;
+      padding-bottom: 10px;
+      position: relative;
+      top: 0;
+      left: 0;
+      z-index: 99px;
+      opacity: 1;
+      background: #fff;
+      border-bottom: 1.2px solid #a9a2c8;
+      ;
+    }
+
+    .header_menu {
+      width: 1200px;
+      height: 50px;
+      margin: 0 auto;
+      //background:red;
+    }
+
+    .header_menu .h_menu_left {
+      float: left;
+    }
+
+    .header_menu .h_menu_right {
+      float: right;
+    }
+
+    .header_menu ul li {
+      float: left;
+      margin: 0 7px;
+
+      line-height: 50px;
+      text-align: center;
+
+      //border:1px solid yellow;
+    }
+
+    .header_menu ul li a {
+      font: 18px "nbg";
+      color: #585858;
+    }
+
+    .header_menu ul li a:hover {
+      font: 18px "nbg";
+      color: #ada4ee;
+    }
+
+
+    .header_logo {
+      width: 260px;
+      height: 110px; //background: tomato;
+      margin: 40px auto 40px;
+
+      display: block;
+    }
+
+    .search_li {
+      width: 160px;
+    }
+
+    #search_string {
+      font-size: 14px;
+      color: #e43c2f;
+      vertical-align: middle;
+      width: 145px;
+      padding: 5px 3%;
+      border: 0;
+      border-bottom: 2px solid #585858;
+      background: transparent;
+      display: inline;
+    }
+
+    .submit_btn {
+      margin-right: 10px;
+      color: #585858;
+      cursor: pointer;
+      display: inline;
+      margin-left: -40px;
+      border: none;
+      background: #fff;
+    }
+
+    .h_menu_right i {
+      font-size: 27px;
+    }
+
+    .h_menu_right .fa-search {
+      font-size: 20px;
+    }
+
+
+
+    .page-header-clone {
+      background-color: #fff;
+      position: fixed;
+      //border:3px solid blue;
+      top: -100px;
+      width: 100%;
+      height: 100px;
+      z-index: 9;
+      opacity: .9;
+      -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+      -webkit-transition: top 0.25s;
+      transition: top 0.25s;
+    }
+
+    .page-header-clone:hover {
+      opacity: 1;
+    }
+
+    .page-header-clone .header {
+      width: 100%;
+      height: 40px;
+
+    }
+
+    .page-header-clone .header_menu {
+      width: 1000px;
+      height: 35px;
+      position: absolute;
+      top: 45px;
+      left: 350px;
+    }
+
+    .page-header-clone.visible {
+      top: 0; //border:2px solid red;
+    }
+
+    .page-header-clone .header_logo {
+      margin: 6px 0 2px;
+      float: left;
+      margin-left: 80px;
+      height: 80px;
+      width: 200px;
+    }
+
+    .page-header-clone .h_menu_left {}
+
+    .page-header-clone .header_logo img {
+      display: block;
+      width: 200px;
+      height: 80px;
+      margin-top: -5px;
+      overflow: hidden;
+      padding-top: 8px;
+    }
+
+    .page-header-clone .header_logo a:before {
+      content: url("");
+      display: inline-block;
+      opacity: 1;
+    }
+  </style>
+  <script>
+    $(function() {
+      var $window = $(window),
+        $header = $('.page-header'),
+        $headerClone = $header.contents().clone(),
+        $headerCloneContainer = $('<div class="page-header-clone"></div>'),
+        $threshold = $header.offset().top + $header.outerHeight();
+
+      $headerCloneContainer.append($headerClone);
+      $headerCloneContainer.appendTo('body');
+
+      $window.scroll(function() {
+        if ($(this).scrollTop() >= $threshold) {
+          $headerCloneContainer.addClass('visible');
+        } else {
+          $headerCloneContainer.removeClass('visible');
+        }
+      });
+
+    });
+  </script>
+
+  <!-- basket -->
+  <style media="screen">
+    #browser_cover {
+      width: 100%;
+      height: 100%;
+      opacity: .4;
+      background: gray;
+      position: absolute;
+      left: 0;
+      z-index: 999999;
+      display: none;
+      animation: eee 0.3s;
+      position: fixed;
+    }
+
+    @keyframes eee {
+      from {
+        opacity: 0
+      }
+
+      to {
+        opacity: 0.4
+      }
+    }
+
+    #main {
+      transition: .5s;
+      padding: 0;
+    }
+  </style>
+  <div id="browser_cover" onclick="closeNav()">
+  </div>
+  <script type="text/javascript">
+    $(function() {
+      $(".shopping_basket").click(function() {
+        $("#browser_cover").css("display", "block");
+      });
+      $("#browser_cover").click(function() {
+        $("#browser_cover").css("display", "none");
+      });
+      $(".closebtn").click(function() {
+        $("#browser_cover").css("display", "none");
+      });
+    });
+  </script>
+  <style media="screen">
+    .sidenav {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      right: 0;
+      background-color: white;
+      border-left: 1px solid lightgray;
+      overflow: hidden;
+      transition: 0.5s;
+      z-index: 999999;
+
+    }
+
+    .sidenav a {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: 25px;
+      color: white;
+      display: inline-block;
+      transition: 0.3s;
+      position: absolute;
+    }
+
+    .sidenav a:hover {
+      color: #f2f2f2;
+    }
+
+    .sidenav .closebtn {
+      position: absolute;
+      top: 0;
+      right: 25px;
+      font-size: 36px;
+      margin-left: 50px;
+      color: black;
+    }
+
+    #main {
+      transition: .5s;
+      padding: 16px;
+    }
+
+    @media screen and (max-height: 450px) {
+      .sidenav {
+        padding-top: 15px;
+      }
+
+      .sidenav a {
+        font-size: 18px;
+      }
+    }
+  </style>
+  <script type="text/javascript">
+    $(function() {
+      $('#basket_select_all_span').click(function() {
+        var x = $("#basket_select_all_span").text();
+        if (x == "전체물품선택") {
+          $('input:checkbox[id="radio_1"]').prop("checked", true);
+          $("#basket_select_all_span").text('전체선택해지');
+        } else {
+          $('input:checkbox[id="radio_1"]').prop("checked", false);
+          $("#basket_select_all_span").text('전체물품선택');
+        }
+      });
+    });
+  </script>
+
+  <style media="screen">
+    .basket_head_img {
+      width: 100%;
+      height: 100px;
+    }
+
+    .basket_charge {
+      display: inline-block;
+      width: 100%;
+      height: 50px;
+      margin-top: 40px;
+      font-size: 20px;
+      text-align: center;
+      line-height: 50px;
+    }
+
+    .basket_charge_number {
+      font-size: 25px;
+    }
+
+    .basket_title {
+      width: 100%;
+    }
+
+    .basket_title div:hover {
+      background: #ADA4EE;
+      color: white;
+      border: 1px solid white;
+    }
+
+    .basket_title div:hover span {
+      color: white;
+    }
+
+    .basket_title::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    .basket_select_all,
+    .basket_delete_selected,
+    .basket_go_buy {
+      position: relative;
+      width: 95px;
+      height: 33px;
+      line-height: 35px;
+      border-radius: 10px;
+      text-align: center;
+      border: 1px solid #494949;
+      user-select: none;
+      cursor: pointer;
+      float: left;
+      margin: 0 9px;
+    }
+
+    .basket_select_all span,
+    .basket_delete_selected span,
+    .basket_go_buy span {
+      font-size: 15px;
+      color: #494949;
+    }
+
+    .basket_select_all span:hover,
+    .basket_delete_selected span:hover,
+    .basket_go_buy span:hover {
+      color: black;
+    }
+
+    .basket_menu_box {
+      width: 80%;
+      height: 85%;
+      padding: 0 10%;
+      overflow: hidden;
+      overflow-y: scroll;
+      direction: rtl;
+    }
+
+    .basket_menu {
+      width: 100%;
+      height: 185px;
+      background: white;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #494949;
+    }
+
+    .basket_menu:first-child {
+      margin-top: 20px;
+    }
+
+    .basket_menu:last-child {
+      margin-bottom: 10px;
+      border-bottom: none;
+    }
+
+    .basket_menu::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    .basket_menu_title {
+      width: 100%;
+      height: 40px;
+      position: relative;
+    }
+
+    .basket_menu_img {
+      width: 45%;
+      height: 130px;
+      float: left;
+    }
+
+    .basket_menu_img img {
+      width: 100%;
+      height: 90%;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    .basket_menu_title input[type=checkbox] {
+      display: inline-block;
+      float: left;
+      margin: 7px 10px 0 0;
+      zoom: 1.2;
+    }
+
+    label {
+      float: left;
+      line-height: 35px;
+    }
+
+    .basket_menu_detail {
+      width: 55%;
+      height: 110px;
+      float: right;
+      padding-top: 20px;
+    }
+
+    .basket_menu_detail .basket_menu_count form {
+      text-align: center;
+      float: right;
+
+    }
+
+    .basket_menu_count {
+      width: 100%;
+      height: 30px;
+    }
+
+    .value-button {
+      display: inline-block;
+      float: right;
+      border: 1px solid #ddd;
+      margin: 0px;
+      width: 20px;
+      height: 100%;
+      text-align: center;
+      vertical-align: middle;
+      background: #eee;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    .value-button:hover {
+      cursor: pointer;
+    }
+
+    input[type=number] {
+      width: 25px;
+      height: 100%;
+      text-align: center;
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .basket_menu_price {
+      width: 100%;
+      height: 30px;
+      line-height: 30px;
+    }
+
+    .basket_menu_box::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .basket_menu_box::-webkit-scrollbar-thumb {
+      background-color: #ADA4EE;
+      border-radius: 10px;
+    }
+
+    .basket_menu_box::-webkit-scrollbar-track {
+      background-color: grey;
+      border-radius: 10px;
+    }
+
+    .bottom {
+      width: 100%;
+      height: 100px;
+      background: green;
+    }
+
+    .basket_menu_share {
+      width: 100%;
+      height: 30px;
+    }
+
+    .basket_menu_share_ul {
+      float: right;
+    }
+
+    .basket_menu_share_ul li:first-child {
+      line-height: 30px;
+    }
+
+    .basket_menu_share_span {
+      font-size: 13px;
+    }
+
+    .fa-share {
+      font-size: 13px;
+    }
+
+    .basket_menu_share_li {
+      display: inline-block;
+      width: 25.5px;
+      height: 25.5px;
+      padding: 4.5px 4.5px 0 0;
+    }
+
+    .basket_menu_share_li img {
+      width: 21px;
+      height: 21px;
+      object-fit: cover;
+      cursor: pointer;
+    }
+  </style>
+  <div id="mySidenav" class="sidenav">
+    <div class="basket_head_img">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <span class="basket_charge">총 결제 금액 : &nbsp<span class="basket_charge_number">30000</span> 원 </span>
+    </div>
+    <div class="basket_title">
+      <div class="basket_select_all" id="basket_select_all_click">
+        <span id="basket_select_all_span">전체물품선택</span>
+      </div>
+      <div class="basket_delete_selected">
+        <span>선택물품삭제</span>
+      </div>
+      <div class="basket_go_buy">
+        <span>결제창으로</span>
+      </div>
+
+    </div>
+    <div class="basket_menu_box">
+
+      <div class="basket_menu">
+        <div class="basket_menu_title">
+          <label>
+            <input type="checkbox" id="radio_1" name="" value="">
+            댕댕이 슬리퍼</label>
+        </div>
+        <div class="basket_menu_img">
+          <img src="images/slide_nav/img_1.gif" alt="">
+        </div>
+        <div class="basket_menu_detail">
+          <div class="basket_menu_count">
+            <span>&nbsp&nbsp수량</span>
+            <form>
+              <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+              <input type="number" id="number" value="1" />
+              <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+            </form>
+          </div>
+          <div class="basket_menu_price">
+            <span>2000원</span>
+          </div>
+          <div class="basket_menu_share">
+            <ul class="basket_menu_share_ul">
+              <li><span class="basket_menu_share_span">공유 <i class="fas fa-share"></i> &nbsp&nbsp</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="basket_menu">
+        <div class="basket_menu_title">
+          <label>
+            <input type="checkbox" id="radio_1" name="" value="">
+            로봇 스탠드시계</label>
+        </div>
+        <div class="basket_menu_img">
+          <img src="images/slide_nav/img_2.gif" alt="">
+
+        </div>
+        <div class="basket_menu_detail">
+          <div class="basket_menu_count">
+            <span>&nbsp&nbsp수량</span>
+            <form>
+              <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+              <input type="number" id="number" value="1" />
+              <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+            </form>
+          </div>
+          <div class="basket_menu_price">
+            <span>2000원</span>
+          </div>
+          <div class="basket_menu_share">
+            <ul class="basket_menu_share_ul">
+              <li><span class="basket_menu_share_span">공유 <i class="fas fa-share"></i> &nbsp&nbsp</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="basket_menu">
+        <div class="basket_menu_title">
+          <label>
+            <input type="checkbox" id="radio_1" name="" value="">
+            구르미 무드등</label>
+        </div>
+        <div class="basket_menu_img">
+          <img src="images/slide_nav/img_3.gif" alt="">
+
+        </div>
+        <div class="basket_menu_detail">
+          <div class="basket_menu_count">
+            <span>&nbsp&nbsp수량</span>
+            <form>
+              <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+              <input type="number" id="number" value="1" />
+              <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+            </form>
+          </div>
+          <div class="basket_menu_price">
+            <span>2000원</span>
+          </div>
+          <div class="basket_menu_share">
+            <ul class="basket_menu_share_ul">
+              <li><span class="basket_menu_share_span">공유 <i class="fas fa-share"></i> &nbsp&nbsp</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="basket_menu">
+        <div class="basket_menu_title">
+          <label>
+            <input type="checkbox" id="radio_1" name="" value="">
+            해변 초</label>
+        </div>
+        <div class="basket_menu_img">
+          <img src="images/slide_nav/img_4.gif" alt="">
+        </div>
+        <div class="basket_menu_detail">
+          <div class="basket_menu_count">
+            <span>&nbsp&nbsp수량</span>
+            <form>
+              <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+              <input type="number" id="number" value="1" />
+              <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+            </form>
+          </div>
+          <div class="basket_menu_price">
+            <span>2000원</span>
+          </div>
+          <div class="basket_menu_share">
+            <ul class="basket_menu_share_ul">
+              <li><span class="basket_menu_share_span">공유 <i class="fas fa-share"></i> &nbsp&nbsp</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="basket_menu">
+        <div class="basket_menu_title">
+          <label>
+            <input type="checkbox" id="radio_1" name="" value="">
+            해변 초</label>
+        </div>
+        <div class="basket_menu_img">
+          <img src="images/slide_nav/img_4.gif" alt="">
+        </div>
+        <div class="basket_menu_detail">
+          <div class="basket_menu_count">
+            <span>&nbsp&nbsp수량</span>
+            <form>
+              <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+              <input type="number" id="number" value="1" />
+              <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+            </form>
+          </div>
+          <div class="basket_menu_price">
+            <span>2000원</span>
+          </div>
+          <div class="basket_menu_share">
+            <ul class="basket_menu_share_ul">
+              <li><span class="basket_menu_share_span">공유 <i class="fas fa-share"></i> &nbsp&nbsp</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="basket_menu">
+        <div class="basket_menu_title">
+          <label>
+            <input type="checkbox" id="radio_1" name="" value="">
+            해변 초</label>
+        </div>
+        <div class="basket_menu_img">
+          <img src="images/slide_nav/img_4.gif" alt="">
+        </div>
+        <div class="basket_menu_detail">
+          <div class="basket_menu_count">
+            <span>&nbsp&nbsp수량</span>
+            <form>
+              <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+              <input type="number" id="number" value="1" />
+              <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+            </form>
+          </div>
+          <div class="basket_menu_price">
+            <span>2000원</span>
+          </div>
+          <div class="basket_menu_share">
+            <ul class="basket_menu_share_ul">
+              <li><span class="basket_menu_share_span">공유 <i class="fas fa-share"></i> &nbsp&nbsp</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+
+
+    </div>
+  </div>
+  <script type="text/javascript">
+    function increaseValue() {
+      var value = parseInt(document.getElementById('number').value, 10);
+      value = isNaN(value) ? 0 : value;
+      value++;
+      document.getElementById('number').value = value;
+    }
+
+    function decreaseValue() {
+      var value = parseInt(document.getElementById('number').value, 10);
+      value = isNaN(value) ? 0 : value;
+      value < 1 ? value = 1 : '';
+      value--;
+      document.getElementById('number').value = value;
+    }
+  </script>
+
+  <div id="main">
+    <!-- basket -->
+
+    <header class="page-header" role="banner">
+      <div class="header">
+        <a href="index.html" class="header_logo"><img src="images/header_logo.png"></a>
+        <div class="header_menu">
+          <ul class="h_menu_left">
+            <li><a href="subpage_item_list.html">인형/토이</a></li>
+            <li><a href="">문구</a></li>
+            <li><a href="">패션</a></li>
+            <li><a href="">주방/욕실</a></li>
+            <li><a href="">리빙/데코</a></li>
+            <li><a href="">디지털/가전</a></li>
+            <li><a href="">여행</a></li>
+            <li><a href="">뷰티</a></li>
+          </ul>
+          <ul class="h_menu_right">
+            <li class="search_li"><a href="">
+                <input type="text" id="search_string" name="search_string">
+                <button onclick="goSearch()" type="submit" class="submit_btn"><i class="fa fa-search" aria-hidden="true"></i></button>
+              </a></li>
+            <li><a href="subpage_login.html"><i class="fas fa-user-circle"></i></a></li>
+            <li><span style="font-size:30px;cursor:pointer" class="shopping_basket" onclick="openNav()"><i class="fas fa-shopping-basket"></i></span></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+    <style media="screen">
+      .content_container {
+        width: 1200px;
+        margin: 0 auto;
+      }
+
+      .content_main_img {
+        width: 100%;
+        height: 420px;
+        background: gray;
+        margin: 45px 0 20px;
+        ;
+      }
+
+      .content_category {
+        margin-bottom: 20px;
+        width: 100%;
+        height: 40px;
+      }
+
+      .content_category ul li {
+        float: left;
+        margin-left: 10px;
+      }
+
+      .content_category ul li a {
+        color: gray;
+      }
+
+      .content_category ul li a:hover {
+        color: #F8B6B8;
+        font-weight: bolder;
+        transition: 0.1s;
+      }
+
+      .selected {
+        font-weight: bold;
+        color: #F8B6B8 !important;
+      }
+    </style>
+    <div class="content_container">
+      <div class="content_main_img">
+        <img src="images/subpage_list/content_main_img.jpg" alt="">
+      </div>
+      <div class="content_category">
+        <ul>
+          <li><a href="#" class="selected">전체</a> &nbsp|</li>
+          <li><a href="#">카카오</a> &nbsp|</li>
+          <li><a href="#">라인</a> &nbsp|</li>
+          <li><a href="#">인형</a> &nbsp|</li>
+          <li><a href="#">카카오</a> &nbsp|</li>
+          <li><a href="#">라인</a> &nbsp|</li>
+          <li><a href="#">인형</a> &nbsp|</li>
+          <li><a href="#">카카오</a> &nbsp|</li>
+          <li><a href="#">라인</a> &nbsp|</li>
+          <li><a href="#">인형</a> &nbsp|</li>
+        </ul>
+      </div>
+      <style media="screen">
+        .content_num_sor_box {
+          width: 1200px;
+          margin-bottom: 20px;
+          padding: 30px 0;
+        }
+
+        .content_num_sor_box::after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+
+        .content_number {
+          display: inline-block;
+          float: left;
+          margin-top: 10px;
+        }
+
+        .content_number_oversize {
+          font-size: 20px;
+          color: #F8B6B8;
+          font-weight: bolder;
+        }
+
+        .content_sortby {
+          display: inline-block;
+          float: right;
+        }
+
+        #prd_select {
+          width: 130px;
+          padding: 5px;
+          outline: none;
+          border: 1px solid #ADA4EE;
+          border-radius: 5px;
+          color: #5D5D5D;
+          margin-right: 15px;
+        }
+
+        #prd_select option {
+          font-size: 15px;
+        }
+      </style>
+      <div class="content_num_sor_box">
+        <div class="content_number">
+          <p>전체 &nbsp <span class="content_number_oversize">333</span> 건이 조회 되었습니다. </p>
+        </div>
+        <div class="content_sortby">
+          <select name="sort_by" id="prd_select">
+            <option value="">신상품 순</option>
+            <option value="">높은가격순</option>
+            <option value="">낮은가격순</option>
+            <option value="">인기상품순</option>
+            <option value="">별점순</option>
+          </select>
+        </div>
+      </div>
+      <style media="screen">
+        .prd_container {
+          width: 1200px;
+          margin: 0 auto; //border:1px solid black;
+        }
+
+        .prd_container::after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+
+        .prd_box {
+          // border:2px solid red;
+          width: 260px;
+          margin: 0 20px 40px;
+          float: left;
+        }
+
+        .prd_box a {
+          width: 260px;
+          height: 260px;
+        }
+
+        .prd_img {
+          padding-top: 2px;
+          width: 100%;
+          height: 260px; //background: gray;
+        }
+
+        .prd_img img {
+          max-width: 260px;
+        }
+
+        .prd_detail {
+
+          width: 100%;
+          height: 100px; //background: lightgray; text-align: center;
+        }
+
+        .prd_name {
+          padding-top: 7px;
+          white-space: nowrap;
+          word-wrap: normal;
+          width: 240px;
+          overflow: hidden;
+          margin-left: 10px;
+          font-weight: bold;
+          color: #5f5867;
+        }
+
+        .prd_price {
+          margin-top: 7px;
+          font-size: 20px;
+          font-weight: bold;
+          color: #F8B6B8;
+        }
+
+        .tag_line {
+          width: 100%;
+          height: 30px;
+          text-align: center;
+          margin-top: 7px;
+        }
+
+        .tag_line img {
+          max-width: 55px;
+          margin: 0 1px;
+        }
+
+        //.prd_box:hover {
+        opacity:.8;
+        }
+
+        .colour a {
+          width: 260px;
+          height: 360px;
+          display: inline-block;
+          position: relative;
+          border-left: 2px solid #dad7f5;
+          border-right: 2px solid #dad7f5;
+        }
+
+        .colour a::before {
+          content: '';
+          position: absolute;
+          height: 100%;
+          margin: auto;
+        }
+
+        .colour a::after {
+          content: '';
+          position: absolute;
+          height: 99%;
+          margin: auto;
+        }
+
+        .colour a::before {
+          border-left: 2px solid #fff;
+          border-right: 2px solid #fff;
+          width: calc(100%);
+          top: 0;
+          left: -2px;
+          transition: all 0.2s ease;
+          transition-delay: 0.2s;
+          //background:#000;
+          z-index: 2;
+        }
+
+        .colour a::after {
+          border-top: 2px solid #dad7f5;
+          border-bottom: 2px solid #dad7f5;
+          width: 0;
+          top: 0;
+          left: 50%;
+          transition: all 0.2s ease;
+        }
+
+        .colour a:hover::before {
+          height: 0;
+          top: 50%;
+        }
+
+        .colour a:hover::after {
+          width: calc(100% + 4px);
+          left: -2px;
+        }
+
+        .prd_img {
+          position: relative;
+        }
+
+        .like_button,
+        .cart_button,
+        .share_button {
+          position: absolute;
+
+          padding: 5px;
+          color: #f67d8e;
+          background: #fff;
+
+          border: 2px solid #f67d8e;
+          border-radius: 10px;
+
+          opacity: .9;
+          cursor: pointer;
+        }
+
+        .like_button {
+          top: 210px;
+          left: 150px;
+        }
+
+        .cart_button {
+          top: 210px;
+          left: 200px;
+        }
+
+        .like_button i,
+        .cart_button i {
+          font-size: 30px;
+        }
+
+        .like_button {
+          top: 200px;
+          left: 100px;
+        }
+
+        .cart_button {
+          top: 200px;
+          left: 150px;
+        }
+
+        .share_button {
+          top: 200px;
+          left: 202px;
+        }
+
+        .like_button i,
+        .cart_button i,
+        .share_button i {
+          font-size: 30px;
+        }
+
+        .like_button:hover,
+        .cart_button:hover,
+        .share_button:hover {
+          color: #fff;
+          background: #f67d8e;
+        }
+
+        .like_button,
+        .cart_button,
+        .share_button {
+          display: none;
+        }
+
+        .prd_hover {
+          width: 260px;
+          height: 260px;
+          position: absolute;
+          top: 50;
+          left: 0;
+          background: url("images/business_hover.png");
+          opacity: .1;
+          display: none;
+        }
+      </style>
+      <script>
+        $(document).ready(function() {
+
+          $(".prd_box a .prd_img").hover(function() {
+            //alert("ddd");
+            $(this).children('.prd_hover').show();
+            $(this).children('button').show();
+          }, function() {
+            $(this).children('.prd_hover').hide();
+            $(this).children('button').hide();
+          });
+        });
+      </script>
+
+      <div class="prd_container">
+        <div class="prd_box">
+          <a href="subpage_prd_page.html">
+            <div class="prd_img">
+              <p class="prd_hover"></p>
+              <button class="like_button"><i class="far fa-heart"></i></button>
+              <button class="cart_button"><i class="fas fa-shopping-cart"></i></button>
+              <button class="share_button"><i class="fas fa-share-alt"></i></button>
+              <img src="images/subpage_list/prd_img_2.jpg" alt="">
+            </div>
+            <div class="prd_detail">
+              <div class="prd_name">
+                농담곰 봉제 인형 ver.2 30cm (2 options)
+              </div>
+              <div class="prd_price">
+                18,000
+              </div>
+              <div class="tag_line img">
+                <img src="images/tag_best.png"><img src="images/tag_new.png">
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="prd_box">
+          <a href="subpage_prd_page.html">
+            <div class="prd_img">
+              <p class="prd_hover"></p>
+              <button class="like_button"><i class="far fa-heart"></i></button>
+              <button class="cart_button"><i class="fas fa-shopping-cart"></i></button>
+              <button class="share_button"><i class="fas fa-share-alt"></i></button>
+              <img src="images/subpage_list/prd_img_1.jpg" alt="">
+            </div>
+            <div class="prd_detail">
+              <div class="prd_name">
+                메리비트윈 35CM 인형 (메리/밀크)
+              </div>
+              <div class="prd_price">
+                28,000
+              </div>
+              <div class="tag_line img">
+                <img src="images/tag_best.png">
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="prd_box">
+          <a href="subpage_prd_page.html">
+            <div class="prd_img">
+              <p class="prd_hover"></p>
+              <button class="like_button"><i class="far fa-heart"></i></button>
+              <button class="cart_button"><i class="fas fa-shopping-cart"></i></button>
+              <button class="share_button"><i class="fas fa-share-alt"></i></button>
+              <img src="images/subpage_list/prd_img_11.jpg" alt="">
+            </div>
+            <div class="prd_detail">
+              <div class="prd_name">
+                촉촉한 베이커니 1인분
+              </div>
+              <div class="prd_price">
+                8,000
+              </div>
+              <div class="tag_line img">
+                <img src="images/tag_best.png"><img src="images/tag_sale.png">
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="prd_box">
+          <a href="subpage_prd_page.html">
+            <div class="prd_img">
+              <p class="prd_hover"></p>
+              <button class="like_button"><i class="far fa-heart"></i></button>
+              <button class="cart_button"><i class="fas fa-shopping-cart"></i></button>
+              <button class="share_button"><i class="fas fa-share-alt"></i></button>
+              <img src="images/subpage_list/prd_img_6.jpg" alt="">
+            </div>
+            <div class="prd_detail">
+              <div class="prd_name">
+                SUNNY EGG
+              </div>
+              <div class="prd_price">
+                7,200
+              </div>
+              <div class="tag_line img">
+                <img src="images/tag_best.png"><img src="images/tag_sale.png">
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="prd_box">
+          <a href="subpage_prd_page.html">
+            <div class="prd_img">
+              <p class="prd_hover"></p>
+              <button class="like_button"><i class="far fa-heart"></i></button>
+              <button class="cart_button"><i class="fas fa-shopping-cart"></i></button>
+              <button class="share_button"><i class="fas fa-share-alt"></i></button>
+              <img src="images/subpage_list/prd_img_4.jpg" alt="">
+            </div>
+            <div class="prd_detail">
+              <div class="prd_name">
+                모우모우 반죽쿠션
+              </div>
+              <div class="prd_price">
+                28,000
+              </div>
+              <div class="tag_line img">
+
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="prd_box">
+          <a href="subpage_prd_page.html">
+            <div class="prd_img">
+              <p class="prd_hover"></p>
+              <button class="like_button"><i class="far fa-heart"></i></button>
+              <button class="cart_button"><i class="fas fa-shopping-cart"></i></button>
+              <button class="share_button"><i class="fas fa-share-alt"></i></button>
+              <img src="images/subpage_list/prd_img_8.jpg" alt="">
+            </div>
+            <div class="prd_detail">
+              <div class="prd_name">
+                모우모우 인형
+              </div>
+              <div class="prd_price">
+                10,000
+              </div>
+              <div class="tag_line img">
+
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="prd_box">
+          <a href="subpage_prd_page.html">
+            <div class="prd_img">
+              <p class="prd_hover"></p>
+              <button class="like_button"><i class="far fa-heart"></i></button>
+              <button class="cart_button"><i class="fas fa-shopping-cart"></i></button>
+              <button class="share_button"><i class="fas fa-share-alt"></i></button>
+              <img src="images/subpage_list/prd_img_9.jpg" alt="">
+            </div>
+            <div class="prd_detail">
+              <div class="prd_name">
+                모찌타운 잠만자 스퀴시 스트레스볼 스볼 벌러덩 기절ver.2
+              </div>
+              <div class="prd_price">
+                9,500
+              </div>
+              <div class="tag_line img">
+
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="prd_box ">
+          <a href="subpage_prd_page.html">
+            <div class="prd_img">
+              <p class="prd_hover"></p>
+              <button class="like_button"><i class="far fa-heart"></i></button>
+              <button class="cart_button"><i class="fas fa-shopping-cart"></i></button>
+              <button class="share_button"><i class="fas fa-share-alt"></i></button>
+              <img src="images/subpage_list/prd_img_10.jpg" alt="">
+            </div>
+            <div class="prd_detail">
+              <div class="prd_name">
+                모찌타운 꾹꾹이 삼총사 스트레스볼 고양이 스퀴시
+              </div>
+              <div class="prd_price">
+                7,650
+              </div>
+              <div class="tag_line img">
+                <img src="images/tag_sale.png">
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="prd_box ">
+          <a href="subpage_prd_page.html">
+            <div class="prd_img">
+              <p class="prd_hover"></p>
+              <button class="like_button"><i class="far fa-heart"></i></button>
+              <button class="cart_button"><i class="fas fa-shopping-cart"></i></button>
+              <button class="share_button"><i class="fas fa-share-alt"></i></button>
+              <img src="images/subpage_list/prd_img_5.jpg" alt="">
+            </div>
+            <div class="prd_detail">
+              <div class="prd_name">
+                피요 포푸리 캣 키링
+              </div>
+              <div class="prd_price">
+                11,200e
+              </div>
+              <div class="tag_line img">
+                <img src="images/tag_sale.png">
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="prd_box ">
+          <a href="subpage_prd_page.html">
+            <div class="prd_img">
+              <p class="prd_hover"></p>
+              <button class="like_button"><i class="far fa-heart"></i></button>
+              <button class="cart_button"><i class="fas fa-shopping-cart"></i></button>
+              <button class="share_button"><i class="fas fa-share-alt"></i></button>
+              <img src="images/subpage_list/prd_img_12.jpg" alt="">
+            </div>
+            <div class="prd_detail">
+              <div class="prd_name">
+                심리 완화기능 감정인형 키링 마봉이(10CM)
+              </div>
+              <div class="prd_price">
+                9800
+              </div>
+              <div class="tag_line img">
+                <img src="images/tag_new.png"><img src="images/tag_coupon.png">
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="prd_box ">
+          <a href="subpage_prd_page.html">
+            <div class="prd_img">
+              <p class="prd_hover"></p>
+              <button class="like_button"><i class="far fa-heart"></i></button>
+              <button class="cart_button"><i class="fas fa-shopping-cart"></i></button>
+              <button class="share_button"><i class="fas fa-share-alt"></i></button>
+              <img src="images/subpage_list/prd_img_7.jpg" alt="">
+            </div>
+            <div class="prd_detail">
+              <div class="prd_name">
+                아보카도브라더 말랑말랑 귀여운 모찌인형
+              </div>
+              <div class="prd_price">
+                16,000
+              </div>
+              <div class="tag_line img">
+                <img src="images/tag_new.png">
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="prd_box ">
+          <a href="subpage_prd_page.html">
+            <div class="prd_img">
+              <p class="prd_hover"></p>
+              <button class="like_button"><i class="far fa-heart"></i></button>
+              <button class="cart_button"><i class="fas fa-shopping-cart"></i></button>
+              <button class="share_button"><i class="fas fa-share-alt"></i></button>
+              <img src="images/subpage_list/prd_img_3.jpg" alt="">
+            </div>
+            <div class="prd_detail">
+              <div class="prd_name">
+                몰랑이 소프트 몰랑썸 3종_(1678710)
+              </div>
+              <div class="prd_price">
+                14,000
+              </div>
+              <div class="tag_line img">
+
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="prd_box ">
+          <a href="subpage_prd_page.html">
+            <div class="prd_img">
+              <p class="prd_hover"></p>
+              <button class="like_button"><i class="far fa-heart"></i></button>
+              <button class="cart_button"><i class="fas fa-shopping-cart"></i></button>
+              <button class="share_button"><i class="fas fa-share-alt"></i></button>
+              <img src="images/subpage_list/prd_img_13.jpg" alt="">
+            </div>
+            <div class="prd_detail">
+              <div class="prd_name">
+                메리비트윈 가방고리 인형 (메리/밀크)
+              </div>
+              <div class="prd_price">
+                12,000
+              </div>
+              <div class="tag_line img">
+
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="prd_box ">
+          <a href="subpage_prd_page.html">
+            <div class="prd_img">
+              <p class="prd_hover"></p>
+              <button class="like_button"><i class="far fa-heart"></i></button>
+              <button class="cart_button"><i class="fas fa-shopping-cart"></i></button>
+              <button class="share_button"><i class="fas fa-share-alt"></i></button>
+              <img src="images/subpage_list/prd_img_14.jpg" alt="">
+            </div>
+            <div class="prd_detail">
+              <div class="prd_name">
+                따끈따끈 식빵뚱냥 인형 - 하양
+              </div>
+              <div class="prd_price">
+                33,900
+              </div>
+              <div class="tag_line img">
+                <img src="images/tag_sale.png">
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="prd_box ">
+          <a href="subpage_prd_page.html">
+            <div class="prd_img">
+              <p class="prd_hover"></p>
+              <button class="like_button"><i class="far fa-heart"></i></button>
+              <button class="cart_button"><i class="fas fa-shopping-cart"></i></button>
+              <button class="share_button"><i class="fas fa-share-alt"></i></button>
+              <img src="images/subpage_list/prd_img_15.jpg" alt="">
+            </div>
+            <div class="prd_detail">
+              <div class="prd_name">
+                스튜디오 달고나 25cm 인형
+              </div>
+              <div class="prd_price">
+                15,000
+              </div>
+              <div class="tag_line img">
+
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="prd_box ">
+          <a href="subpage_prd_page.html">
+            <div class="prd_img">
+              <p class="prd_hover"></p>
+              <button class="like_button"><i class="far fa-heart"></i></button>
+              <button class="cart_button"><i class="fas fa-shopping-cart"></i></button>
+              <button class="share_button"><i class="fas fa-share-alt"></i></button>
+              <img src="images/subpage_list/prd_img_16.jpg" alt="">
+            </div>
+            <div class="prd_detail">
+              <div class="prd_name">
+                매니져 워키토끼
+              </div>
+              <div class="prd_price">
+                12,000
+              </div>
+              <div class="tag_line img">
+                <img src="images/tag_sale.png">
+              </div>
+            </div>
+          </a>
+        </div>
+
+
+
+      </div>
+
+      <style media="screen">
+        .paging_container {
+          width: 500px;
+          height: 23px;
+          margin: 40px auto 100px;
+        }
+
+        .paging_container::after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+
+        .paging_container ul {
+          display: table;
+          margin: 0 auto;
+        }
+
+        .paging_container ul li {
+          float: left;
+          margin-right: 15px;
+          text-align: center;
+        }
+
+        .paging_container ul li a {
+          display: inline-block;
+          width: 15px;
+          color: gray;
+          font-size: 20px;
+          line-height: 28px;
+        }
+
+        .paging_container ul li a:hover {
+          color: #F8B6B8;
+          font-weight: bolder;
+          transition: 0.2s;
+        }
+
+        .paging_selected {
+          display: inline-block;
+          width: 25px !important;
+          height: 100%;
+          background: #F8B6B8;
+          font-weight: bolder;
+          color: white !important;
+          border-radius: 30%;
+          font-size: 18px !important;
+          line-height: 27px;
+        }
+      </style>
+
+      <div class="paging_container">
+        <ul>
+          <li></li>
+          <li><a href="#" class="paging_selected">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a> </li>
+          <li><a href="#">4</a> </li>
+          <li><a href="#">5</a> </li>
+          <li><a href="#"><i class="fas fa-angle-right"></i></a></li>
+          <li><a href="#"><i class="fas fa-angle-double-right"></i></a></li>
+        </ul>
+      </div>
+
+
+    </div>
+    <script src="swiper-5.4.5/package/js/swiper.min.js"></script>
+
+    <script>
+      function openNav() {
+        document.getElementById("mySidenav").style.width = "360px";
+        document.getElementById("main").style.marginRight = "360px";
+      }
+
+      function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginRight = "0";
+      }
+    </script>
+
+    <style>
+      #footer {
+        width: 100%;
+        height: 300;
+        background: #4c4852;
+      }
+
+      #footer_inner {
+        width: 1200px;
+        height: 300px;
+        margin: 0 auto;
+        position: relative;
+        text-align: center;
+        opacity: .7;
+      }
+
+      .footer_logo {
+        position: absolute;
+        top: 42px;
+        left: 510px;
+        max-width: 200px;
+      }
+
+      .footer_text {
+        position: absolute;
+        top: 150px;
+        left: 390px;
+        font: 13px "NanumBarunGothic";
+        color: #fff;
+      }
+    </style>
+    <div id="footer">
+      <div id="footer_inner">
+        <img src="images/footer_logo.png." class="footer_logo">
+
+        <p class="footer_text">
+          (주)컬러파레트&nbsp&nbsp|&nbsp&nbsp사업자등록번호 214-88-07825&nbsp&nbsp|&nbsp&nbsp대표이사 김철수 <br /><br />
+          주소: (06653) 서울특별시 서초구 반포대로 12길 41 &nbsp&nbsp|&nbsp&nbsp ARS 1544-0070 <br /><br />
+          본사 대표전화 및 가맹상담전화 : 010-7732-8394&nbsp&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp&nbsp통신판매업신고번호 제 833호<br /><br />
+          COPYRIGHT © Colorpalette, Inc. All rights reserved
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

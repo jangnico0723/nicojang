@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>
+	<script src="./js/vendor/modernizr.custom.min.js"></script>
+	<script src="./js/vendor/jquery-1.10.2.min.js"></script>
+	<script src="./js/vendor/jquery.ba-throttle-debounce.min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+
+    <link rel="stylesheet" href="swiper-5.4.5/package/css/swiper.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.1/css/all.css">
+
+  </head>
+
+
+ <style>
+ *{margin:0; padding:0;
+	font: 18px "nbg";}
+
+	a{text-decoration:none;
+		color:#201f25;}
+	li{list-style-type:none;}
+  body{overflow-x: hidden; color:#4F4F4F; font-family: "nbg"}
+
+  #main{
+    transition: .5s;
+    padding:16px;
+  }
+	@font-face {
+	font-family:"har";
+	src:url("font/MapoPeacefull.ttf");}
+
+	@font-face {
+	font-family:"mpf";
+	src:url("font/MapoFlowerIsland.ttf");}
+
+	@font-face {
+	font-family:"nbg";
+	src:url("font/NanumBarunGothic.ttf");}
+
+
+
+
+
+
+
+	  .page-header{
+        width:100%; height: 240px; padding-top:40px;
+		position: relative; top: 0; left: 0;
+		z-index:99px;
+		opacity: 1;
+		background: #fff;
+      }
+		.header_menu{
+			width:1200px; height:50px;
+			margin: 0 auto;
+			//background:red;
+		}
+		.header_menu .h_menu_left{float:left;}
+		.header_menu .h_menu_right{float:right;}
+		.header_menu ul li{
+			float:left; margin: 0 7px;
+
+			line-height:50px;
+			text-align:center;
+
+			//border:1px solid yellow;
+		}
+		.header_menu ul li a{
+			font:18px "nbg";
+			color: #585858;
+		}
+		.header_menu ul li a:hover{
+			font:18px "nbg";
+			color: #ada4ee;
+		}
+    .shopping_basket:hover{
+      color:#ADA4EE;
+
+    }
+
+      .header_logo{
+        width: 260px; height:110px; //background: tomato;
+		margin: 40px auto 40px;
+
+		display: block;
+      }
+	.search_li{width: 160px;}
+	#search_string{
+		font-size: 14px;
+		color: #e43c2f;
+		vertical-align: middle;
+		width: 145px;
+		padding: 5px 3%;
+		border: 0;
+		border-bottom: 2px solid #585858;
+		background: transparent;
+		display:inline;
+	}
+	.submit_btn	{
+		margin-right:10px;
+		color: #585858;
+		cursor: pointer;
+		display:inline;
+		margin-left:-40px;
+		border:none;
+		background:#fff;
+	}
+	.h_menu_right i{font-size:27px;}
+	.h_menu_right .fa-search{font-size:20px;}
+
+
+
+.page-header-clone {
+	background-color: #fff;
+    position: fixed;
+	//border:3px solid blue;
+    top: -100px;
+    width: 100%;
+	height:100px;
+    z-index: 9;
+	opacity:.9;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+    -webkit-transition: top 0.25s;
+            transition: top 0.25s;
+	}
+		.page-header-clone:hover {opacity:1;}
+
+	.page-header-clone .header{
+	  width:100%; height:40px;
+
+	}
+	.page-header-clone .header_menu {
+		width: 1000px; height:35px;
+		position:absolute;
+		top:45px; left:350px;
+	}
+	.page-header-clone.visible {
+		top: 0; //border:2px solid red;
+	}
+	.page-header-clone .header_logo{
+		margin: 6px 0 2px;
+		float:left;
+		margin-left: 80px;
+		height:80px; width:200px;
+	}
+	.page-header-clone .h_menu_left{
+
+	}
+	.page-header-clone .header_logo img {
+		display: block;
+		width: 200px;
+		height: 80px;
+		margin-top: -5px;
+		overflow: hidden;
+		padding-top:8px;
+	}
+	.page-header-clone .header_logo a:before {
+		content: url("");
+		display: inline-block;
+		opacity:1;
+	}
+	.basket{
+		display:inline-block;
+		width:30px; height:30px;
+		border:2px solid red;
+	}
+
+	.basket:hover{animation:basketHover 10s ease-in infinite;}
+		@keyframes basketHover{
+			0%(top:30px;)
+			50%{
+
+				top:150px;
+			}
+			100%{
+
+				top:30px;
+			}
+		}
+
+
+    </style>
+<script>
+$(function () {
+		var $window = $(window),
+		$header = $('.page-header'),
+		$headerClone = $header.contents().clone(),
+		$headerCloneContainer = $('<div class="page-header-clone"></div>'),
+		$threshold = $header.offset().top + $header.outerHeight();
+
+		$headerCloneContainer.append($headerClone);
+		$headerCloneContainer.appendTo('body');
+
+		$window.scroll(function(){
+			if($(this).scrollTop() >= $threshold){
+				$headerCloneContainer.addClass('visible');
+			} else{
+				$headerCloneContainer.removeClass('visible');
+			}
+		});
+
+	});
+
+</script>
+<body>
+
+  <!-- basket -->
+
+  <style media="screen">
+  .sidenav {
+height: 100%;
+width: 0;
+position: fixed;
+z-index: 1;
+top: 0;
+right:0;
+background-color: white;
+border-left:1px solid lightgray;
+overflow: hidden;
+transition: 0.5s;
+z-index: 999999;
+
+}
+
+.sidenav a{
+padding: 8px 8px 8px 32px;
+text-decoration: none;
+font-size: 25px;
+color: white;
+display: inline-block;
+transition: 0.3s;
+position:absolute;
+}
+
+.sidenav a:hover {
+color: #f2f2f2;
+}
+.sidenav .closebtn {
+position: absolute;
+top: 0;
+right: 25px;
+font-size: 36px;
+margin-left: 50px;
+color:black;
+}
+
+#main {
+transition: .5s;
+padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+.sidenav {padding-top: 15px;}
+.sidenav a {font-size: 18px;}
+}
+  </style>
+<script type="text/javascript">
+$(function(){
+  $('#basket_select_all_span').click(function(){
+    var x = $("#basket_select_all_span").text();
+    if( x == "전체물품선택"){
+      $('input:checkbox[id="radio_1"]').prop("checked", true);
+      $("#basket_select_all_span").text('전체선택해지');
+    } else{
+      $('input:checkbox[id="radio_1"]').prop("checked", false);
+      $("#basket_select_all_span").text('전체물품선택');
+    }
+  });
+});
+
+</script>
+
+  <style media="screen">
+    .basket_head_img{
+      width:100%; height:100px;
+    }
+    .basket_title{
+      width:100%;
+    }
+    .basket_title::after{
+      content: "";
+      display: table;
+      clear: both;
+    }
+    .basket_select_all, .basket_delete_selected, .basket_go_buy{
+      position:relative;
+      width:95px; height:33px;
+      line-height: 35px;
+      border-radius: 10px;
+      text-align: center;
+      border:1px solid #494949;
+      user-select: none;
+      cursor: pointer;
+      float:left;
+      margin:0 9px;
+    }
+    .basket_select_all span, .basket_delete_selected span, .basket_go_buy span{
+      font-size: 15px; color:#494949;
+    }
+    .basket_select_all span:hover, .basket_delete_selected span:hover, .basket_go_buy span:hover{
+      color:black;
+}
+    .basket_menu_box{
+      width:80%; height:85%; padding: 0 10%;
+      overflow: hidden;
+      overflow-y: scroll;
+      direction:rtl;
+    }
+    .basket_menu{
+      width:100%; height:185px; background: white; margin-bottom:8px;
+      border-bottom:1px solid #494949;
+    }
+    .basket_menu:first-child{
+      margin-top:20px;
+    }
+
+    .basket_menu:last-child{
+      margin-bottom:10px;
+      border-bottom:none;
+    }
+    .basket_menu::after{
+      content: "";
+      display: table;
+      clear: both;
+    }
+    .basket_menu_title{
+      width:100%; height:40px; position: relative;
+    }
+
+    .basket_menu_img{
+      width:45%; height:130px; float:left;
+    }
+    .basket_menu_img img{
+      width:100%; height:90%;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+    .basket_menu_title input[type=checkbox]{
+      display: inline-block; float:left;
+      margin: 7px 10px 0 0;
+      zoom:1.2;
+     }
+    label{
+      float:left; line-height: 35px;
+    }
+    .basket_menu_detail{
+      width:55%; height:110px;  float:right; padding-top:20px;
+    }
+    .basket_menu_detail .basket_menu_count form{
+      text-align: center;
+      float:right;
+
+    }
+    .basket_menu_count{
+      width:100%; height:30px;
+    }
+    .value-button {
+      display: inline-block;
+      float:right;
+      border: 1px solid #ddd;
+      margin: 0px;
+      width: 20px;
+      height: 100%;
+      text-align: center;
+      vertical-align: middle;
+      background: #eee;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    .value-button:hover {
+      cursor: pointer;
+    }
+    input[type=number]{
+        width:25px; height:100%; text-align: center;
+    }
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    .basket_menu_price{
+      width:100%; height:30px;
+      line-height: 30px;
+    }
+    .basket_menu_box::-webkit-scrollbar {
+      width: 5px;
+    }
+    .basket_menu_box::-webkit-scrollbar-thumb {
+      background-color: #ADA4EE;
+      border-radius: 10px;
+    }
+    .basket_menu_box::-webkit-scrollbar-track {
+      background-color: grey;
+      border-radius: 10px;
+    }
+    .bottom{
+      width:100%; height:100px; background: green;
+    }
+    .basket_menu_share{
+      width:100%; height:30px;
+    }
+    .basket_menu_share_ul{
+      float:right;
+    }
+    .basket_menu_share_ul li:first-child{
+      line-height: 30px;
+    }
+    .basket_menu_share_span{
+      font-size: 13px;
+    }
+    .fa-share{
+      font-size: 13px;
+    }
+    .basket_menu_share_li{
+      display:inline-block;
+      width:25.5px; height:25.5px; padding: 4.5px 4.5px 0 0 ;
+    }
+    .basket_menu_share_li img{
+      width:21px; height:21px;
+      object-fit: cover;
+      cursor: pointer;
+    }
+      </style>
+<div id="mySidenav" class="sidenav">
+  <div class="basket_head_img">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  </div>
+  <div class="basket_title">
+    <div class="basket_select_all" id="basket_select_all_click">
+      <span id="basket_select_all_span">전체물품선택</span>
+    </div>
+    <div class="basket_delete_selected">
+      <span>선택물품삭제</span>
+    </div>
+    <div class="basket_go_buy">
+      <span>결제창으로</span>
+    </div>
+
+  </div>
+  <div class="basket_menu_box">
+
+    <div class="basket_menu">
+      <div class="basket_menu_title">
+        <label>
+        <input type="checkbox" id="radio_1" name="" value="" >
+        댕댕이 슬리퍼</label>
+      </div>
+      <div class="basket_menu_img">
+        <img src="images/slide_nav/img_1.gif" alt="">
+      </div>
+      <div class="basket_menu_detail">
+        <div class="basket_menu_count">
+          <span>&nbsp&nbsp수량</span>
+          <form>
+            <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+              <input type="number" id="number" value="1"  />
+            <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+          </form>
+        </div>
+        <div class="basket_menu_price">
+          <span>2000원</span>
+        </div>
+        <div class="basket_menu_share">
+          <ul class="basket_menu_share_ul">
+            <li><span class="basket_menu_share_span">공유 <i class="fas fa-share"></i> &nbsp&nbsp</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="basket_menu">
+      <div class="basket_menu_title">
+        <label>
+        <input type="checkbox" id="radio_1" name="" value="" >
+        로봇 스탠드시계</label>
+      </div>
+      <div class="basket_menu_img">
+        <img src="images/slide_nav/img_2.gif" alt="">
+
+      </div>
+      <div class="basket_menu_detail">
+        <div class="basket_menu_count">
+          <span>&nbsp&nbsp수량</span>
+          <form>
+            <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+              <input type="number" id="number" value="1"  />
+            <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+          </form>
+        </div>
+        <div class="basket_menu_price">
+          <span>2000원</span>
+        </div>
+        <div class="basket_menu_share">
+          <ul class="basket_menu_share_ul">
+            <li><span class="basket_menu_share_span">공유 <i class="fas fa-share"></i> &nbsp&nbsp</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="basket_menu">
+      <div class="basket_menu_title">
+        <label>
+        <input type="checkbox" id="radio_1" name="" value="" >
+        구르미 무드등</label>
+      </div>
+      <div class="basket_menu_img">
+        <img src="images/slide_nav/img_3.gif" alt="">
+
+      </div>
+      <div class="basket_menu_detail">
+        <div class="basket_menu_count">
+          <span>&nbsp&nbsp수량</span>
+          <form>
+            <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+              <input type="number" id="number" value="1"  />
+            <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+          </form>
+        </div>
+        <div class="basket_menu_price">
+          <span>2000원</span>
+        </div>
+        <div class="basket_menu_share">
+          <ul class="basket_menu_share_ul">
+            <li><span class="basket_menu_share_span">공유 <i class="fas fa-share"></i> &nbsp&nbsp</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="basket_menu">
+      <div class="basket_menu_title">
+        <label>
+        <input type="checkbox" id="radio_1" name="" value="" >
+        해변 초</label>
+      </div>
+      <div class="basket_menu_img">
+        <img src="images/slide_nav/img_4.gif" alt="">
+      </div>
+      <div class="basket_menu_detail">
+        <div class="basket_menu_count">
+          <span>&nbsp&nbsp수량</span>
+          <form>
+            <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+              <input type="number" id="number" value="1"  />
+            <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+          </form>
+        </div>
+        <div class="basket_menu_price">
+          <span>2000원</span>
+        </div>
+        <div class="basket_menu_share">
+          <ul class="basket_menu_share_ul">
+            <li><span class="basket_menu_share_span">공유 <i class="fas fa-share"></i> &nbsp&nbsp</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="basket_menu">
+      <div class="basket_menu_title">
+        <label>
+        <input type="checkbox" id="radio_1" name="" value="" >
+        해변 초</label>
+      </div>
+      <div class="basket_menu_img">
+        <img src="images/slide_nav/img_4.gif" alt="">
+      </div>
+      <div class="basket_menu_detail">
+        <div class="basket_menu_count">
+          <span>&nbsp&nbsp수량</span>
+          <form>
+            <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+              <input type="number" id="number" value="1"  />
+            <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+          </form>
+        </div>
+        <div class="basket_menu_price">
+          <span>2000원</span>
+        </div>
+        <div class="basket_menu_share">
+          <ul class="basket_menu_share_ul">
+            <li><span class="basket_menu_share_span">공유 <i class="fas fa-share"></i> &nbsp&nbsp</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="basket_menu">
+      <div class="basket_menu_title">
+        <label>
+        <input type="checkbox" id="radio_1" name="" value="" >
+        해변 초</label>
+      </div>
+      <div class="basket_menu_img">
+        <img src="images/slide_nav/img_4.gif" alt="">
+      </div>
+      <div class="basket_menu_detail">
+        <div class="basket_menu_count">
+          <span>&nbsp&nbsp수량</span>
+          <form>
+            <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+              <input type="number" id="number" value="1"  />
+            <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+          </form>
+        </div>
+        <div class="basket_menu_price">
+          <span>2000원</span>
+        </div>
+        <div class="basket_menu_share">
+          <ul class="basket_menu_share_ul">
+            <li><span class="basket_menu_share_span">공유 <i class="fas fa-share"></i> &nbsp&nbsp</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+
+
+  </div>
+</div>
+<script type="text/javascript">
+  function increaseValue() {
+    var value = parseInt(document.getElementById('number').value, 10);
+    value = isNaN(value) ? 0 : value;
+    value++;
+    document.getElementById('number').value = value;
+  }
+
+  function decreaseValue() {
+    var value = parseInt(document.getElementById('number').value, 10);
+    value = isNaN(value) ? 0 : value;
+    value < 1 ? value = 1 : '';
+    value--;
+    document.getElementById('number').value = value;
+  }
+
+
+</script>
+
+<div id="main">
+  <!-- basket -->
+
+
+
+<header class="page-header" role="banner">
+    <div class="header">
+     <a href=""  class="header_logo"><img src="images/header_logo.png"></a>
+		<div class="header_menu">
+			<ul class="h_menu_left">
+				<li><a href="">인형/토이</a></li>
+				<li><a href="">문구</a></li>
+				<li><a href="">패션</a></li>
+				<li><a href="">주방/욕실</a></li>
+				<li><a href="">리빙/데코</a></li>
+				<li><a href="">디지털/가전</a></li>
+				<li><a href="">여행</a></li>
+				<li><a href="">뷰티</a></li>
+			</ul>
+			<ul class="h_menu_right">
+				<li class="search_li"><a href="">
+					<input type="text" id="search_string" name="search_string">
+					<button onclick="goSearch()"type="submit" class="submit_btn"><i class="fa fa-search" aria-hidden="true"></i></button>
+				</a></li>
+				<li><a href=""><i class="fas fa-user-circle"></i></a></li>
+        <li><span style="font-size:30px;cursor:pointer" class="shopping_basket" onclick="openNav()"><i class="fas fa-shopping-basket"></i></span></li>
+
+
+			</ul>
+		</div>
+    </div>
+</header>
+
+<style media="screen">
+  .swiper_back{
+    width:3300px; height:450px;  position:relative; left:50%; margin-left:-1650px;
+  }
+  .swiper1{
+    width:100%; height:100%;
+  }
+  .swiper_back::before{
+    content:"";
+    display:table;
+    margin-top:45px;
+  }
+
+  .swiper-slide{
+    width:900px; height:450px;
+  }
+  .swiper-slide img{
+    width:100%; height:100%;border-radius: 15px;
+  }
+</style>
+  <div class="swiper_back">
+
+    <div class="swiper-container swiper1">
+  		<div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <img src="images/top_swiper_1.png" alt="">
+  			</div>
+        <div class="swiper-slide">
+          <img src="images/top_swiper_2.png" alt="">
+  			</div>
+        <div class="swiper-slide">
+          <img src="images/top_swiper_3.png" alt="">
+  			</div>
+        <div class="swiper-slide">
+          <img src="images/top_swiper_1.png" alt="">
+  			</div>
+        <div class="swiper-slide">
+          <img src="images/top_swiper_2.png" alt="">
+        </div>
+
+        <div class="swiper-slide">
+          <img src="images/top_swiper_3.png" alt="">
+  			</div>
+
+  			</div>
+
+  		</div>
+
+<style media="screen">
+  .pagination_cont{
+    width:105px; height:40px; background: #494949; position:absolute;
+    top:400px; z-index: 99; opacity: 0.7; left:50%; border-radius: 10px;
+    transform: translate(-50%, -50%)
+  }
+  .swiper-pagination{
+    color:white; top:20%; left:31px; font-size: 20px;
+  }
+  .swiper-button-next, .swiper-button-prev{
+    color:white; outline: none;
+  }
+</style>
+      <div class="pagination_cont">
+        <div class="swiper-pagination"></div>
+        <!-- Add Arrows -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+  	</div>
+
+
+  <style media="screen">
+    .content_container{
+      width:1200px; height:1450px; margin:0 auto; //background: lightgray;margin-top:50px;
+    }
+  </style>
+  <div class="content_container">
+    <style media="screen">
+      .content_recommend_box{
+        width:100%;
+        height:500px;
+       // background: tomato;
+      }
+      .recom_title{
+        width:100%;
+        height:90px;
+        //background: gray;
+      }
+
+		.best_title{
+			text-align:center;
+		}
+		.best_title img{
+			max-height:90px;
+		}
+      .recom_item{
+        width:280px;
+        height:380px;
+        margin:0px 10px;
+		margin-top:30px;
+        float:left;
+        //background: yellow;
+      }
+      .content_recommend_box::after{
+        content: '';
+        display: block;
+        clear: both;
+      }
+	  .recom_item_box .recom_item {position:relative;}
+	  .recom_item_box .tag_line{width:100%; height:30px; text-align:center;}
+	  .recom_item_box .recom_item img {margin-top:20px; width:280px; text-align:center;}
+	  .recom_item_box .tag_line img{max-width:55px; margin: 0 1px;}
+	  .recom_item_box div p{
+		text-align:center;
+		font:20px "nbg";
+		font-weight:bold;
+		margin-top:20px;
+	  }
+
+	  .like_border{
+	  }
+	  .like_bitton{
+		position:absolute;
+		top:220px; right:10px;
+
+		padding:5px;
+		color:#f67d8e;
+		background:#fff;
+
+		border:3px solid #f67d8e;
+		border-radius: 10px;
+
+		opacity:.8;
+	  }
+	  .like_bitton i{
+		font-size:30px;
+	  }
+	  .recom_item_title{
+		width:230px;
+		padding:0 25px;
+		color:#5f5867;
+		text-overflow:ellipsis;
+		white-space:nowrap;
+		word-wrap:normal;
+		overflow:hidden;
+	  }
+	  .recom_item_price{color:#c4c4f0;}
+    </style>
+    <div class="content_recommend_box">
+      <div class="recom_title">
+		<p class="best_title"><img src="images/best_title.png"></p>
+	</div>
+	  <div class="recom_item_box">
+        <div class="recom_item">
+			<div class="tag_line">
+				<img src="images/tag_best.png">
+			</div>
+			<span><img src="images/momo.png"></span>
+			<p class="recom_item_title">로마네 홀라베어 EVA하드 아이패드 파우치 모음 11인치</p>
+			<p class="recom_item_price">22,000원</p>
+				<button class="like_bitton"><i class="far fa-heart"></i></button>
+		</div>
+        <div class="recom_item">
+			<div class="tag_line">
+				<img src="images/tag_best.png">
+				<img src="images/tag_new.png">
+			</div>
+			<span><img src="images/momo2.png"></span>
+			<p class="recom_item_title">파스텔 투톤 버튼 아이폰 반투명 케이스</p>
+			<p class="recom_item_price">16,000원</p>
+				<button class="like_bitton"><i class="far fa-heart"></i></button>
+		</div>
+        <div class="recom_item">
+			<div class="tag_line">
+				<img src="images/tag_best.png">
+				<img src="images/tag_sale.png">
+			</div>
+			<span><img src="images/momo3.png"></span>
+			<p class="recom_item_title">비온뒤 풀밭 위 일상 스티커</p>
+			<p class="recom_item_price">1,800원</p>
+				<button class="like_bitton"><i class="far fa-heart"></i></button>
+		</div>
+        <div class="recom_item">
+			<div class="tag_line">
+				<img src="images/tag_best.png">
+				<img src="images/tag_coupon.png">
+			</div>
+			<span><img src="images/momo4.png"></span>
+			<p class="recom_item_title">고구미 마우스패드</p>
+			<p class="recom_item_price">4,000원</p>
+				<button class="like_bitton"><i class="far fa-heart"></i></button>
+		</div>
+      </div>
+    </div>
+
+<style media="screen">
+    .banner_item_box{
+		position:relative;
+      width:100%; height: 200px; margin-top:50px; margin-bottom:70px;
+    }
+    .banner_item_1{
+
+      width:580px; height:100%;
+	  background: url("images/banner_item_1.png");
+	  border-radius: 15px;
+    }
+    .banner_item_2{
+	  position:relative;
+      width:580px; height:100%;
+	  background: url("images/banner_item_2.png");
+	  border-radius: 15px;
+    }
+	.banner_go{
+		position:absolute;
+
+		padding:5px 10px;
+		dolor: #666666;
+		border:1px solid #666666;
+		border-radius: 15px;
+		font-size:12px;
+		z-index:2;
+	}
+
+	.banner_item_1 .banner_go{top:170px; left:470px;}
+	.banner_item_2 .banner_go{top:170px; left:470px;}
+	.banner_item_1 .banner_go:hover{color:#7720D8; border:1px solid #7720D8; background:#fff;}
+	.banner_item_2 .banner_go:hover{color:#B00900; border:1px solid #B00900; background:#fff;}
+
+    .banner_item_1{
+      float:left
+    }
+    .banner_item_2{
+      float:right;
+    }
+    .banner_item_box::after{
+      content: '';
+      display: block;
+      clear: both;
+    }
+
+</style>
+  <div class="banner_item_box">
+    <div class="banner_item_1">
+		<a href="" class="banner_go">제품 보러가기 ></a>
+	</div>
+    <div class="banner_item_2">
+		<a href="" class="banner_go">제품 보러가기 ></a>
+	</div>
+  </div>
+<style media="screen">
+  .special_item_box{
+    width:100%; height:550px; margin-top:50px;
+	 background: url("images/special_item_box.png");
+  }
+  .special_box_left{
+    width:700px;height:550px; //background: gray;float:left; position:relative;
+  }
+  .box_left_item{
+    width:660px; height:200px; //background: lightgray; position:absolute; bottom:20px; left:20px; border-radius: 15px;
+	overflow:hidden;
+  }
+
+
+  .special_box_right{
+    width:440px;height:510px; //background: gray; float:right; padding:20px;
+  }
+  .box_right_item_1, .box_right_item_2, .box_right_item_3, .box_right_item_4{
+    width:210px; height:240px; //background: lightgray; float:left; border-radius: 15px;
+	overflow:hidden;
+  }
+  .box_right_item_1, .box_right_item_3 {
+    margin-right:20px;
+  }
+		.box_left_item{background:url("images/box_left_item.png");}
+		.box_right_item_1{background:url("images/box_right_item_1.png");}
+		.box_right_item_2{background:url("images/box_right_item_2.png");}
+		.box_right_item_3{background:url("images/box_right_item_3.png");}
+		.box_right_item_4{background:url("images/box_right_item_4.png");}
+
+  .special_box_right_top{
+    width:440px; height:240px; //background:gray;
+  }
+  .spcial_box_right_bottom{
+    width:440px; height:240px; //background:gray; margin-top:30px;
+  }
+  .box_right_item_bar{
+	width:210px; height:40px;
+
+	font:16px "nbg";
+	color:#7e4542;
+	text-align:center;
+	line-height:40px;
+
+	background:#fff;
+	opacity:.7;
+	}
+  .box_left_item_bar{
+	width:120px; height:200px;
+
+	font:16px "nbg";
+	color:#7e4542;
+	text-align:center;
+	line-height:20px;
+	padding-top:65px;
+	background:#fff;
+	opacity:.7;
+	}
+
+
+</style>
+<script>
+$(document).ready(function(){
+
+	$(".special_box_right div div").hover(function(){
+			$(this).children('p').css("opacity","1");
+		},function(){
+			$(this).children('p').css("opacity",".7");
+		});
+
+	$(".box_left_item").hover(function(){
+			$(this).children('p').css("opacity","1");
+		},function(){
+			$(this).children('p').css("opacity",".7");
+		});
+
+
+
+});
+</script>
+  <div class="special_item_box">
+    <div class="special_box_left">
+      <a href=""><div class="box_left_item">
+		<p class="box_left_item_bar">크리스마스 트리<br>꾸미기 세트<br><br>8,000원</p>
+	  </div></a>
+    </div>
+  <!-- 상자 우측 아이템4개 -->
+    <div class="special_box_right">
+      <div class="special_box_right_top">
+        <a href=""><div class="box_right_item_1"><p class="box_right_item_bar">양말주머니 5000원</p></div></a>
+        <a href=""><div class="box_right_item_2"><p class="box_right_item_bar">팰트리스 4000원</p></div> </a>
+      </div>
+      <div class="spcial_box_right_bottom">
+        <a href=""><div class="box_right_item_3"><p class="box_right_item_bar">크리스마스 인형 7000원</p></div></a>
+        <a href=""><div class="box_right_item_4"><p class="box_right_item_bar">팰트 가랜드 3000원</p></div>   </a>
+      </div>
+      <!-- 상자 우측 아이템4개 -->
+
+    </div>
+  </div>
+</div>
+
+<style media="screen">
+.swiper2_back{
+  width:1200px;
+  height:380px;
+  position:relative;
+  margin:0 auto;
+}
+.swiper2_back .swiper-slide{
+  width:285px; height:240px; border-radius: 50%; background: lightgray; overflow: hidden; border:1px solid #ADA4EE;
+  background: white;
+}
+.swiper2_title{
+  width:100%; height:100px;
+}
+.swiper2_title_box{
+  width:800px; height:100%; margin:0 auto;
+  background-image: url("images/slider2/line.png"); background-repeat: no-repeat;
+}
+/* 타이틀 추가 2020-12-01  */
+.swiper2_title_box_content{
+  width:200px; height:70px;  margin:0 auto; padding-top: 20px;
+  background-image: url("images/recom_title.jpg"); background-repeat: no-repeat; background-size: cover;
+}
+.swiper2_title_box_content p{
+  text-align: center; font-size: 30px; line-height:40px;
+}
+.button_swiper2 .swiper-button-prev{
+  position:absolute;
+  top:40px;left:120px; color:#ADA4EE; width:30px;
+  background-image: url("images/slider2/angle_left.png");
+}
+.button_swiper2 .swiper-button-prev::after, .button_swiper2 .swiper-button-next::after{
+  display:none;
+}
+.button_swiper2 .swiper-button-next{
+  position:absolute;
+  top:40px;right:120px; color:#ADA4EE; width:30px;
+  background-image: url("images/slider2/angle_right.png");
+}
+</style>
+<div class="swiper2_back">
+  <div class="swiper-container swiper2">
+    <div class="swiper2_title">
+      <div class="swiper2_title_box">
+        <div class="swiper2_title_box_content">
+        </div>
+      </div>
+    </div>
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <img src="images/slider2/img1.gif" alt="">
+      </div>
+      <div class="swiper-slide">
+        <img src="images/slider2/img2.gif" alt="">
+      </div>
+      <div class="swiper-slide">
+        <img src="images/slider2/img3.gif" alt="">
+      </div>
+      <div class="swiper-slide">
+        <img src="images/slider2/img4.gif" alt="">
+      </div>
+      <div class="swiper-slide">
+        <img src="images/slider2/img5.gif" alt="">
+      </div>
+      <div class="swiper-slide">
+        <img src="images/slider2/img6.gif" alt="">
+      </div>
+
+
+    </div>
+    <div class="button_swiper2">
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+
+  </div>
+</div>
+<style media="screen">
+.content_container_middle{
+  width:1200px; height:600px; margin:0 auto;
+  background:url("images/content_container_middle.png");
+
+  margin-bottom:30px;
+}
+.content_container_middle.on1{background:url("images/content_container_middle_li_1.jpg"); transition:.7s}
+.content_container_middle.on2{background:url("images/content_container_middle_li_2.jpg"); transition:.7s}
+.content_container_middle.on3{background:url("images/content_container_middle_li_3.jpg"); transition:.7s}
+.content_container_middle.on4{background:url("images/content_container_middle_li_4.jpg"); transition:.7s}
+.content_container_middle.on5{background:url("images/content_container_middle_li_5.jpg"); transition:.7s}
+
+.content_container_middle ul{margin-top:50px; float:right;}
+.content_container_middle ul li{
+	width:150px; height:70px;
+	background:red;
+	border:1px solid #f1ecce;
+	border-radius:15px;
+	overflow:hidden;
+	float:none;
+	margin:30px 0px;
+	text-align:center;
+}
+.content_container_middle ul li p{
+	line-height:70px;
+	color:#46424b;
+}
+.content_container_middle ul li .spanback{
+	display:block; width:150px; height:70px;
+	background:#f1ecce; //opacity:.7;
+}
+
+.content_container_middle ul .tt1{background:url("images/content_container_middle_1.png");}
+.content_container_middle ul .tt2{background:url("images/content_container_middle_2.png");}
+.content_container_middle ul .tt3{background:url("images/content_container_middle_3.png");}
+.content_container_middle ul .tt4{background:url("images/content_container_middle_4.png");}
+.content_container_middle ul .tt5{background:url("images/content_container_middle_5.png");}
+
+
+	.content_container_middle ul li a p{
+		display:none;
+	}
+	.content_container_middle ul li .tt_link:hover{
+		background:url("images/product_hover.png");
+	}
+
+</style>
+<script>
+$(document).ready(function(){
+
+	$(".content_container_middle ul li").hover(function(){
+			$(this).children('a').children('p').css("display","block");
+		},function(){
+			$(this).children('a').children('p').css("display","none");
+		});
+
+	$(".tt1").mouseover(function(){
+		$(".content_container_middle").removeClass("on2");
+		$(".content_container_middle").removeClass("on3");
+		$(".content_container_middle").removeClass("on4");
+		$(".content_container_middle").removeClass("on5");
+		$(".content_container_middle").addClass("on1");
+	});
+	$(".tt2").mouseover(function(){
+		$(".content_container_middle").removeClass("on1");
+		$(".content_container_middle").removeClass("on3");
+		$(".content_container_middle").removeClass("on4");
+		$(".content_container_middle").removeClass("on5");
+		$(".content_container_middle").addClass("on2");
+	});
+	$(".tt3").mouseover(function(){
+		$(".content_container_middle").removeClass("on1");
+		$(".content_container_middle").removeClass("on2");
+		$(".content_container_middle").removeClass("on4");
+		$(".content_container_middle").removeClass("on5");
+		$(".content_container_middle").addClass("on3");
+	});
+	$(".tt4").mouseover(function(){
+		$(".content_container_middle").removeClass("on1");
+		$(".content_container_middle").removeClass("on2");
+		$(".content_container_middle").removeClass("on3");
+		$(".content_container_middle").removeClass("on5");
+		$(".content_container_middle").addClass("on4");
+	});
+	$(".tt5").mouseover(function(){
+		$(".content_container_middle").removeClass("on1");
+		$(".content_container_middle").removeClass("on2");
+		$(".content_container_middle").removeClass("on3");
+		$(".content_container_middle").removeClass("on4");
+		$(".content_container_middle").addClass("on5");
+	});
+	$(".content_container_middle").mouseleave(function(){
+		$(".content_container_middle").removeClass("on1");
+		$(".content_container_middle").removeClass("on2");
+		$(".content_container_middle").removeClass("on3");
+		$(".content_container_middle").removeClass("on4");
+		$(".content_container_middle").removeClass("on5");
+	});
+
+
+});
+</script>
+<div class="content_container_middle">
+  <ul>
+	<li class="tt1"><a href=""><p class="tt_link">난방용품 ></p></a></li>
+	<li class="tt2"><a href=""><p class="tt_link">뜨개용품 ></p></a></li>
+	<li class="tt3"><a href=""><p class="tt_link">난로인형 ></p></a></li>
+	<li class="tt4"><a href=""><p class="tt_link">연하장 ></p></a></li>
+	<li class="tt5"><a href=""><p class="tt_link">겨울장식 ></p></a></li>
+  </ul>
+</div>
+<style media="screen">
+ul {margin:0; position:relative; list-style:none;}
+li {position:relative; float:left;}
+
+.content_container_bottom{
+  width:1200px; height:930px; margin:0 auto;
+}
+.content_container_bottom_title{
+  width:1200px; height:40px;
+}
+.content_container_bottom_title_left{
+  width:750px; height:40px; float:left;
+}
+.content_container_bottom_title_left p{
+ font-size: 25px; font-weight:bold;
+}
+.content_container_bottom_title_right{
+  width:450px; height:40px; float:left;
+}
+.content_container_bottom_title_right p{
+  font-size: 25px; font-weight:bold;
+}
+.comunity_div{
+  width:100%; height:850px; position: relative;
+}
+.com_top{
+  width:100%; height:400px;
+}
+.com_top_slide_div{
+  width:900px; height:100%; position:relative;
+}
+
+/*  가로 750px maring 10 사용가능 가로 730px */
+.com_middle{
+ width:100%; height:250px; background: white;
+}
+.com_middle_left{
+width: 300px; height:230px; margin: 20px 10px 0 0; float:left;  border-radius: 15px; overflow: hidden;
+background-image: url("images/slider3/middle_img_left.png");
+}
+.com_middle_left_top{
+  width:256px; height:35px; padding-left:42px; line-height: 40px; font-size: 15px; border-bottom:5px solid white;
+  border-radius: 15px 15px 0 0 ; border:1px solid gray;
+}
+.com_middle_left_top span{
+  font-weight: bold;
+}
+.com_middle_right{
+  width: 420px; height:230px; margin: 20px 10px 20px 0; float:left; background: gray;border-radius: 15px; overflow: hidden;
+}
+
+.com_bottom{
+ width:100%; height:200px;padding: 25px 0 25px; margin-top:20px;
+}
+.com_bottom_ul{
+ padding-left:0;  display:inline-block;
+}
+.com_bottom_ul:after{
+ width:100%; content: ""; display:block; clear:both;
+}
+/* 추가 2020 12 01*/
+.com_bottom_ul li{
+  width: 332px; height:150px; display: inline-block; margin:0 30px; border-radius: 15px; border:1px solid #ADA4EE;  float:left;
+}
+.com_top_slide_div .swiper-slide{
+  width:750px; height:400px;  position:relative;
+}
+.swiper3left{
+  width:430px; height:100%; float: left; margin-right:20px; animation: swiperleft 1.5s;
+}
+.swiper3right{
+ width:300px; height:280px; float:left; animation: swiperright 1.5s;
+}
+@keyframes swiperleft {
+  0% {transform: translateY(50px);opacity: 0;}
+  100% {transform: translateY(0);opacity: 1;}
+}
+@keyframes swiperright {
+  0% {transform: translateX(100px);opacity: 0;}
+  100% {transform: translateX(0);opacity: 1;}
+}
+.swiper3pag_box .swiper-button-prev{
+  margin-left:190px; color: #ADA4EE;
+}
+.swiper3pag_box .swiper-button-next{
+ color:#ADA4EE;
+}
+.swiper3pag_box{
+  position:absolute; z-index: 9999;  right:180px; bottom:60px; width:240px;
+}
+.swiper-pagination-bullet{
+ width:45px; height:4px; border-radius: 0; margin:0 !important; background: #ADA4EE
+  }
+
+</style>
+<style media="screen">
+  .swiper3right_top{
+    width:100%; height:50px;
+  }
+  .swiper3right_top p{
+    line-height: 50px;
+  }
+  .swiper3right_middle{
+    width:100%; height:100px;
+  }
+  .swiper3right_middle_top{
+    font-size: 30px; color: #ADA4EE; line-height: 50px;
+  }
+  .swiper3right_middle_bottom{
+    font-size: 30px;
+  }
+  .swiper3right_bottom{
+    width:100%; height:90px;
+  }
+</style>
+
+<div class="content_container_bottom">
+  <div class="content_container_bottom_title">
+    <div class="content_container_bottom_title_left">
+      <p>혜택</p>
+    </div>
+    <div class="content_container_bottom_title_right">
+      <p>이벤트</p>
+    </div>
+  </div>
+  <div class="comunity_div">
+    <div class="com_top">
+      <div class="com_top_slide_div">
+        <div class="swiper-container swiper3">
+          <div class="swiper-wrapper">
+
+            <div class="swiper-slide">
+              <div class="swiper3left">
+                <img src="images/slider3/benefit_img_left_1.gif" alt="">
+              </div>
+              <div class="swiper3right">
+                <div class="swiper3right_top">
+                  <p>멤버쉽 이벤트</p>
+                </div>
+                <div class="swiper3right_middle">
+                  <p class="swiper3right_middle_top">COLLOR PALLETTE</p>
+                  <p class="swiper3right_middle_bottom">MEMBERSHIP EVENT</p>
+                </div>
+                <div class="swiper3right_bottom">
+                  <p>멤버쉼 가입 회원님<br>
+                     드리는 6가지 혜택</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="swiper3left">
+                <img src="images/slider3/benefit_img_left_1.gif" alt="">
+              </div>
+              <div class="swiper3right">
+                <div class="swiper3right_top">
+                  <p>멤버쉽 이벤트</p>
+                </div>
+                <div class="swiper3right_middle">
+                  <p class="swiper3right_middle_top">COLLOR PALLETTE</p>
+                  <p class="swiper3right_middle_bottom">MEMBERSHIP EVENT</p>
+                </div>
+                <div class="swiper3right_bottom">
+                  <p>멤버쉼 가입 회원님<br>
+                     드리는 6가지 혜택</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="swiper3left">
+                <img src="images/slider3/benefit_img_left_1.gif" alt="">
+              </div>
+              <div class="swiper3right">
+                <div class="swiper3right_top">
+                  <p>멤버쉽 이벤트</p>
+                </div>
+                <div class="swiper3right_middle">
+                  <p class="swiper3right_middle_top">COLLOR PALLETTE</p>
+                  <p class="swiper3right_middle_bottom">MEMBERSHIP EVENT</p>
+                </div>
+                <div class="swiper3right_bottom">
+                  <p>멤버쉼 가입 회원님<br>
+                     드리는 6가지 혜택</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="swiper3left">
+              </div>
+              <div class="swiper3right">
+              </div>
+            </div>
+
+
+          </div>
+          <!-- Add Pagination -->
+          <div class="swiper3pag_box">
+            <div class="swiper-pagination3"></div>
+          <!-- Add Arrows -->
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+      </div>
+
+      </div>
+    </div>
+    <div class="com_middle">
+      <div class="com_middle_left">
+        <div class="com_middle_left_top">
+          <span>Color Pallette</span> Youtube
+        </div>
+        <div class="com_middle_left_bottom">
+
+          <iframe width="300" height="190" src="https://www.youtube.com/embed/tgbNymZ7vqY">
+          </iframe>
+
+        </div>
+      </div>
+      <div class="com_middle_right">
+        <img src="images/slider3/middle_img_left.gif" alt="">
+      </div>
+    </div>
+
+    <style media="screen">
+      .membership{
+        background-image: url("images/slider3/membership_logo.png"); background-repeat: no-repeat; background-size: cover; padding-top:10px;
+      }
+      .membership_detail{
+	  position:relative;
+      }
+      .location{
+        background-image: url("images/slider3/location.png"); background-repeat: no-repeat; background-size: cover; padding-top:10px;
+      }
+      .location_detail{
+        width:210px; padding-top:30px;  float:right; text-align: center;
+      }
+      .location_detail p{
+        font-size: 23px; line-height: 40px; color:#46424b;
+      }
+      .customer_center{
+       // background-image: url("images/slider3/customer_center.png"); background-repeat: no-repeat; background-size: cover; padding-top:10px;
+      }
+      .customer_center_detail{
+        width:210px;float:right; text-align: center; padding-top:23px;
+      }
+      .c_center{
+        font: 25px "har"; //margin-bottom:15px;  color:#46424b;
+      }
+	  .c_center_img{
+		max-height: 90px; margin-top:25px; margin-left:30px;
+	  }
+      .cs_hour{
+        font: 15px "har"; margin-top:10px; color:#aba7b0;
+      }
+	  .membership_submit{
+		  display:inline-block; border:1px solid #ADA4EE;  border-radius: 13px; color:grey;
+		  padding:5px 10px;
+		  font: 13px "mpf"; font-weight:bold;
+		  position:absolute;
+		  top:112px; right:30px;
+		}
+    </style>
+
+        <div class="com_bottom">
+          <ul class="com_bottom_ul">
+            <li class="membership">
+              <div class="membership_detail">
+			  <a href="#"> <div class="membership_submit"> 맴버쉽 상세보기 > </div></a>
+              </div>
+            </li>
+            <a href=""><li class="location">
+             <div class="location_detail"></div>
+            </li></a>
+            <a href=""><li class="customer_center">
+              <span><img src="images/slider3/customer-service.png" class="c_center_img"></span>
+			  <div class="customer_center_detail">
+                <p class="c_center">고객센터<br>
+                  1588-8888
+                </p>
+                <p class="cs_hour">운영시간
+                00:00 ~ 00:00</p>
+              </div>
+            </li></a>
+          </ul>
+        </div>
+        <style media="screen">
+.event_img_div{
+  position: absolute; right:0;top:0; z-index: 3;
+  width:330px; height:590px; background: #f5f5f5; border-radius: 15px;
+  padding: 60px 60px 0 60px;
+  }
+.event_img_box{
+  width:310px; height:380px; background: white;padding: 10px 10px 0 10px;
+}
+.event_img_box_detail{
+  width:100%; height:110px; background: white; text-align:center;padding-top:10px;
+}
+.event_submit{
+  display:inline-block; border:1px solid #ADA4EE; padding:5px; border-radius: 13px; color:grey;
+}
+.event_img_box_detail p{
+  padding-bottom:7px;
+}
+</style>
+<!-- 이벤트 이미지 -->
+    <div class="event_img_div">
+      <div class="event_img_box">
+        <img src="images/slider3/event_img_1.gif" alt="">
+      </div>
+      <div class="event_img_box_detail">
+        <p>이벤트 기간</p>
+        <p>2020.10.10 ~ 2020.10.15</p>
+        <a href="#">
+          <div class="event_submit">
+            응모하러가기
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+    <script src="swiper-5.4.5/package/js/swiper.min.js"></script>
+
+    <script>
+    	var swiper1 = new Swiper('.swiper1', {
+    		slidesPerView: 3,
+    		spaceBetween: 33,
+    		slidesPerGroup: 1,
+    		loop: true,
+        autoplay: 3000,
+    		loopFillGroupWithBlank: true,
+    		pagination: {
+    			el: '.swiper-pagination',
+    			type: 'fraction',
+    		},
+    		navigation: {
+    			nextEl: '.swiper-button-next',
+    			prevEl: '.swiper-button-prev',
+    		},
+    	});
+// slidesPerView 증가//
+      var swiper2 = new Swiper('.swiper2', {
+        slidesPerView: 5.1,
+        spaceBetween:20,
+        loop:true,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+
+      });
+      var swiper3 = new Swiper('.swiper3', {
+        loop:true,
+        pagination: {
+          el: '.swiper-pagination3',
+          clickable: true,
+          type: "bullets"
+        },
+        on : {
+
+     slideChangeTransitionEnd : function () {
+       $(".swiper3left").hide(0);
+       $(".swiper3left").show(0);
+       $(".swiper3right").hide(0);
+       $(".swiper3right").show(0);
+        }
+      },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+      });
+
+      function openNav() {
+        document.getElementById("mySidenav").style.width = "360px";
+        document.getElementById("main").style.marginRight = "360px";
+        document.getElementById("main").style.transition= "0.5s";
+      }
+
+      function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginRight= "0";
+      }
+
+    </script>
+<style>
+
+	#footer{
+		width:100%; height:300;
+		background:#4c4852;
+	}
+	#footer_inner{
+		width:1200px; height:300px;
+		margin: 0 auto;
+		position:relative;
+		text-align:center;
+		opacity:.7;
+	}
+
+	.footer_logo{
+		position:absolute;
+		top:42px; left:510px;
+		max-width:200px;
+		}
+
+	.footer_text{
+		position:absolute;
+		top:150px; left:390px;
+		font: 13px "NanumBarunGothic";
+		color: #fff;
+	}
+
+</style>
+	<div id="footer">
+		<div id="footer_inner">
+		<img src="images/footer_logo.png." class="footer_logo">
+
+		<p class="footer_text">
+			(주)컬러파레트&nbsp&nbsp|&nbsp&nbsp사업자등록번호 214-88-07825&nbsp&nbsp|&nbsp&nbsp대표이사 김철수 <br/><br/>
+			주소: (06653) 서울특별시 서초구 반포대로 12길 41 &nbsp&nbsp|&nbsp&nbsp ARS 1544-0070 <br/><br/>
+			본사 대표전화 및 가맹상담전화 : 010-7732-8394&nbsp&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp&nbsp통신판매업신고번호 제 833호<br/><br/>
+			COPYRIGHT © Colorpalette, Inc. All rights reserved
+		</p>
+		</div>
+	</div>
+</div>
+  </body>
+</html>

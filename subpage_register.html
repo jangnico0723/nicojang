@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>
+  <script src="./js/vendor/modernizr.custom.min.js"></script>
+  <script src="./js/vendor/jquery-1.10.2.min.js"></script>
+  <script src="./js/vendor/jquery.ba-throttle-debounce.min.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+
+  <link rel="stylesheet" href="swiper-5.4.5/package/css/swiper.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.1/css/all.css">
+
+</head>
+
+<body>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font: 18px "nbg";
+    }
+
+    a {
+      text-decoration: none;
+      color: #201f25;
+    }
+
+    li {
+      list-style-type: none;
+    }
+
+    body {
+      overflow-x: hidden;
+      color: #4F4F4F;
+      font-family: "nbg"
+    }
+
+    body,
+    html {
+      width: 100%;
+      height: 100%;
+    }
+
+    @font-face {
+      font-family: "nbg";
+      src: url("font/NanumBarunGothic.ttf");
+    }
+
+    .page-header {
+      width: 100%;
+      height: 240px;
+      padding-top: 40px;
+      padding-bottom: 10px;
+      position: relative;
+      top: 0;
+      left: 0;
+      z-index: 99px;
+      opacity: 1;
+      background: #fff;
+      border-bottom: 1.2px solid #a9a2c8;
+      ;
+    }
+
+    .header_menu {
+      width: 1200px;
+      height: 50px;
+      margin: 0 auto;
+      //background:red;
+    }
+
+    .header_menu .h_menu_left {
+      float: left;
+    }
+
+    .header_menu .h_menu_right {
+      float: right;
+    }
+
+    .header_menu ul li {
+      float: left;
+      margin: 0 7px;
+
+      line-height: 50px;
+      text-align: center;
+
+      //border:1px solid yellow;
+    }
+
+    .header_menu ul li a {
+      font: 18px "nbg";
+      color: #585858;
+    }
+
+    .header_menu ul li a:hover {
+      font: 18px "nbg";
+      color: #ada4ee;
+    }
+
+
+    .header_logo {
+      width: 260px;
+      height: 110px; //background: tomato;
+      margin: 40px auto 40px;
+
+      display: block;
+    }
+
+    .search_li {
+      width: 160px;
+    }
+
+    #search_string {
+      font-size: 14px;
+      color: #e43c2f;
+      vertical-align: middle;
+      width: 145px;
+      padding: 5px 3%;
+      border: 0;
+      border-bottom: 2px solid #585858;
+      background: transparent;
+      display: inline;
+    }
+
+    .submit_btn {
+      margin-right: 10px;
+      color: #585858;
+      cursor: pointer;
+      display: inline;
+      margin-left: -40px;
+      border: none;
+      background: #fff;
+    }
+
+    .h_menu_right i {
+      font-size: 27px;
+    }
+
+    .h_menu_right .fa-search {
+      font-size: 20px;
+    }
+
+
+
+    .page-header-clone {
+      background-color: #fff;
+      position: fixed;
+      //border:3px solid blue;
+      top: -100px;
+      width: 100%;
+      height: 100px;
+      z-index: 9;
+      opacity: .9;
+      -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+      -webkit-transition: top 0.25s;
+      transition: top 0.25s;
+    }
+
+    .page-header-clone:hover {
+      opacity: 1;
+    }
+
+    .page-header-clone .header {
+      width: 100%;
+      height: 40px;
+
+    }
+
+    .page-header-clone .header_menu {
+      width: 1000px;
+      height: 35px;
+      position: absolute;
+      top: 45px;
+      left: 350px;
+    }
+
+    .page-header-clone.visible {
+      top: 0; //border:2px solid red;
+    }
+
+    .page-header-clone .header_logo {
+      margin: 6px 0 2px;
+      float: left;
+      margin-left: 80px;
+      height: 80px;
+      width: 200px;
+    }
+
+    .page-header-clone .h_menu_left {}
+
+    .page-header-clone .header_logo img {
+      display: block;
+      width: 200px;
+      height: 80px;
+      margin-top: -5px;
+      overflow: hidden;
+      padding-top: 8px;
+    }
+
+    .page-header-clone .header_logo a:before {
+      content: url("");
+      display: inline-block;
+      opacity: 1;
+    }
+  </style>
+  <script>
+    $(function() {
+      var $window = $(window),
+        $header = $('.page-header'),
+        $headerClone = $header.contents().clone(),
+        $headerCloneContainer = $('<div class="page-header-clone"></div>'),
+        $threshold = $header.offset().top + $header.outerHeight();
+
+      $headerCloneContainer.append($headerClone);
+      $headerCloneContainer.appendTo('body');
+
+      $window.scroll(function() {
+        if ($(this).scrollTop() >= $threshold) {
+          $headerCloneContainer.addClass('visible');
+        } else {
+          $headerCloneContainer.removeClass('visible');
+        }
+      });
+
+    });
+  </script>
+
+  <!-- basket -->
+  <style media="screen">
+    #browser_cover {
+      width: 100%;
+      height: 100%;
+      opacity: .4;
+      background: gray;
+      position: absolute;
+      left: 0;
+      z-index: 999999;
+      display: none;
+      animation: eee 0.3s;
+      position: fixed;
+    }
+
+    @keyframes eee {
+      from {
+        opacity: 0
+      }
+
+      to {
+        opacity: 0.4
+      }
+    }
+
+    #main {
+      transition: .5s;
+      padding: 0;
+    }
+  </style>
+  <div id="browser_cover" onclick="closeNav()">
+  </div>
+  <script type="text/javascript">
+    $(function() {
+      $(".shopping_basket").click(function() {
+        $("#browser_cover").css("display", "block");
+      });
+      $("#browser_cover").click(function() {
+        $("#browser_cover").css("display", "none");
+      });
+      $(".closebtn").click(function() {
+        $("#browser_cover").css("display", "none");
+      });
+    });
+  </script>
+  <style media="screen">
+    .sidenav {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      right: 0;
+      background-color: white;
+      border-left: 1px solid lightgray;
+      overflow: hidden;
+      transition: 0.5s;
+      z-index: 999999;
+
+    }
+
+    .sidenav a {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: 25px;
+      color: white;
+      display: inline-block;
+      transition: 0.3s;
+      position: absolute;
+    }
+
+    .sidenav a:hover {
+      color: #f2f2f2;
+    }
+
+    .sidenav .closebtn {
+      position: absolute;
+      top: 0;
+      right: 25px;
+      font-size: 36px;
+      margin-left: 50px;
+      color: black;
+    }
+
+    #main {
+      transition: .5s;
+      padding: 16px;
+    }
+
+    @media screen and (max-height: 450px) {
+      .sidenav {
+        padding-top: 15px;
+      }
+
+      .sidenav a {
+        font-size: 18px;
+      }
+    }
+  </style>
+  <script type="text/javascript">
+    $(function() {
+      $('#basket_select_all_span').click(function() {
+        var x = $("#basket_select_all_span").text();
+        if (x == "전체물품선택") {
+          $('input:checkbox[id="radio_1"]').prop("checked", true);
+          $("#basket_select_all_span").text('전체선택해지');
+        } else {
+          $('input:checkbox[id="radio_1"]').prop("checked", false);
+          $("#basket_select_all_span").text('전체물품선택');
+        }
+      });
+    });
+  </script>
+
+  <style media="screen">
+    .basket_head_img {
+      width: 100%;
+      height: 100px;
+    }
+
+    .basket_charge {
+      display: inline-block;
+      width: 100%;
+      height: 50px;
+      margin-top: 40px;
+      font-size: 20px;
+      text-align: center;
+      line-height: 50px;
+    }
+
+    .basket_charge_number {
+      font-size: 25px;
+    }
+
+    .basket_title {
+      width: 100%;
+    }
+
+    .basket_title div:hover {
+      background: #ADA4EE;
+      color: white;
+      border: 1px solid white;
+    }
+
+    .basket_title div:hover span {
+      color: white;
+    }
+
+    .basket_title::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    .basket_select_all,
+    .basket_delete_selected,
+    .basket_go_buy {
+      position: relative;
+      width: 95px;
+      height: 33px;
+      line-height: 35px;
+      border-radius: 10px;
+      text-align: center;
+      border: 1px solid #494949;
+      user-select: none;
+      cursor: pointer;
+      float: left;
+      margin: 0 9px;
+    }
+
+    .basket_select_all span,
+    .basket_delete_selected span,
+    .basket_go_buy span {
+      font-size: 15px;
+      color: #494949;
+    }
+
+    .basket_select_all span:hover,
+    .basket_delete_selected span:hover,
+    .basket_go_buy span:hover {
+      color: black;
+    }
+
+    .basket_menu_box {
+      width: 80%;
+      height: 85%;
+      padding: 0 10%;
+      overflow: hidden;
+      overflow-y: scroll;
+      direction: rtl;
+    }
+
+    .basket_menu {
+      width: 100%;
+      height: 185px;
+      background: white;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #494949;
+    }
+
+    .basket_menu:first-child {
+      margin-top: 20px;
+    }
+
+    .basket_menu:last-child {
+      margin-bottom: 10px;
+      border-bottom: none;
+    }
+
+    .basket_menu::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    .basket_menu_title {
+      width: 100%;
+      height: 40px;
+      position: relative;
+    }
+
+    .basket_menu_img {
+      width: 45%;
+      height: 130px;
+      float: left;
+    }
+
+    .basket_menu_img img {
+      width: 100%;
+      height: 90%;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    .basket_menu_title input[type=checkbox] {
+      display: inline-block;
+      float: left;
+      margin: 7px 10px 0 0;
+      zoom: 1.2;
+    }
+
+    label {
+      float: left;
+      line-height: 35px;
+    }
+
+    .basket_menu_detail {
+      width: 55%;
+      height: 110px;
+      float: right;
+      padding-top: 20px;
+    }
+
+    .basket_menu_detail .basket_menu_count form {
+      text-align: center;
+      float: right;
+
+    }
+
+    .basket_menu_count {
+      width: 100%;
+      height: 30px;
+    }
+
+    .value-button {
+      display: inline-block;
+      float: right;
+      border: 1px solid #ddd;
+      margin: 0px;
+      width: 20px;
+      height: 100%;
+      text-align: center;
+      vertical-align: middle;
+      background: #eee;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    .value-button:hover {
+      cursor: pointer;
+    }
+
+    input[type=number] {
+      width: 25px;
+      height: 100%;
+      text-align: center;
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .basket_menu_price {
+      width: 100%;
+      height: 30px;
+      line-height: 30px;
+    }
+
+    .basket_menu_box::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .basket_menu_box::-webkit-scrollbar-thumb {
+      background-color: #ADA4EE;
+      border-radius: 10px;
+    }
+
+    .basket_menu_box::-webkit-scrollbar-track {
+      background-color: grey;
+      border-radius: 10px;
+    }
+
+    .bottom {
+      width: 100%;
+      height: 100px;
+      background: green;
+    }
+
+    .basket_menu_share {
+      width: 100%;
+      height: 30px;
+    }
+
+    .basket_menu_share_ul {
+      float: right;
+    }
+
+    .basket_menu_share_ul li:first-child {
+      line-height: 30px;
+    }
+
+    .basket_menu_share_span {
+      font-size: 13px;
+    }
+
+    .fa-share {
+      font-size: 13px;
+    }
+
+    .basket_menu_share_li {
+      display: inline-block;
+      width: 25.5px;
+      height: 25.5px;
+      padding: 4.5px 4.5px 0 0;
+    }
+
+    .basket_menu_share_li img {
+      width: 21px;
+      height: 21px;
+      object-fit: cover;
+      cursor: pointer;
+    }
+  </style>
+  <div id="mySidenav" class="sidenav">
+    <div class="basket_head_img">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <span class="basket_charge">총 결제 금액 : &nbsp<span class="basket_charge_number">30000</span> 원 </span>
+    </div>
+    <div class="basket_title">
+      <div class="basket_select_all" id="basket_select_all_click">
+        <span id="basket_select_all_span">전체물품선택</span>
+      </div>
+      <div class="basket_delete_selected">
+        <span>선택물품삭제</span>
+      </div>
+      <div class="basket_go_buy">
+        <span>결제창으로</span>
+      </div>
+
+    </div>
+    <div class="basket_menu_box">
+
+      <div class="basket_menu">
+        <div class="basket_menu_title">
+          <label>
+            <input type="checkbox" id="radio_1" name="" value="">
+            댕댕이 슬리퍼</label>
+        </div>
+        <div class="basket_menu_img">
+          <img src="images/slide_nav/img_1.gif" alt="">
+        </div>
+        <div class="basket_menu_detail">
+          <div class="basket_menu_count">
+            <span>&nbsp&nbsp수량</span>
+            <form>
+              <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+              <input type="number" id="number" value="1" />
+              <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+            </form>
+          </div>
+          <div class="basket_menu_price">
+            <span>2000원</span>
+          </div>
+          <div class="basket_menu_share">
+            <ul class="basket_menu_share_ul">
+              <li><span class="basket_menu_share_span">공유 <i class="fas fa-share"></i> &nbsp&nbsp</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="basket_menu">
+        <div class="basket_menu_title">
+          <label>
+            <input type="checkbox" id="radio_1" name="" value="">
+            로봇 스탠드시계</label>
+        </div>
+        <div class="basket_menu_img">
+          <img src="images/slide_nav/img_2.gif" alt="">
+
+        </div>
+        <div class="basket_menu_detail">
+          <div class="basket_menu_count">
+            <span>&nbsp&nbsp수량</span>
+            <form>
+              <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+              <input type="number" id="number" value="1" />
+              <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+            </form>
+          </div>
+          <div class="basket_menu_price">
+            <span>2000원</span>
+          </div>
+          <div class="basket_menu_share">
+            <ul class="basket_menu_share_ul">
+              <li><span class="basket_menu_share_span">공유 <i class="fas fa-share"></i> &nbsp&nbsp</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="basket_menu">
+        <div class="basket_menu_title">
+          <label>
+            <input type="checkbox" id="radio_1" name="" value="">
+            구르미 무드등</label>
+        </div>
+        <div class="basket_menu_img">
+          <img src="images/slide_nav/img_3.gif" alt="">
+
+        </div>
+        <div class="basket_menu_detail">
+          <div class="basket_menu_count">
+            <span>&nbsp&nbsp수량</span>
+            <form>
+              <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+              <input type="number" id="number" value="1" />
+              <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+            </form>
+          </div>
+          <div class="basket_menu_price">
+            <span>2000원</span>
+          </div>
+          <div class="basket_menu_share">
+            <ul class="basket_menu_share_ul">
+              <li><span class="basket_menu_share_span">공유 <i class="fas fa-share"></i> &nbsp&nbsp</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="basket_menu">
+        <div class="basket_menu_title">
+          <label>
+            <input type="checkbox" id="radio_1" name="" value="">
+            해변 초</label>
+        </div>
+        <div class="basket_menu_img">
+          <img src="images/slide_nav/img_4.gif" alt="">
+        </div>
+        <div class="basket_menu_detail">
+          <div class="basket_menu_count">
+            <span>&nbsp&nbsp수량</span>
+            <form>
+              <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+              <input type="number" id="number" value="1" />
+              <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+            </form>
+          </div>
+          <div class="basket_menu_price">
+            <span>2000원</span>
+          </div>
+          <div class="basket_menu_share">
+            <ul class="basket_menu_share_ul">
+              <li><span class="basket_menu_share_span">공유 <i class="fas fa-share"></i> &nbsp&nbsp</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="basket_menu">
+        <div class="basket_menu_title">
+          <label>
+            <input type="checkbox" id="radio_1" name="" value="">
+            해변 초</label>
+        </div>
+        <div class="basket_menu_img">
+          <img src="images/slide_nav/img_4.gif" alt="">
+        </div>
+        <div class="basket_menu_detail">
+          <div class="basket_menu_count">
+            <span>&nbsp&nbsp수량</span>
+            <form>
+              <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+              <input type="number" id="number" value="1" />
+              <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+            </form>
+          </div>
+          <div class="basket_menu_price">
+            <span>2000원</span>
+          </div>
+          <div class="basket_menu_share">
+            <ul class="basket_menu_share_ul">
+              <li><span class="basket_menu_share_span">공유 <i class="fas fa-share"></i> &nbsp&nbsp</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="basket_menu">
+        <div class="basket_menu_title">
+          <label>
+            <input type="checkbox" id="radio_1" name="" value="">
+            해변 초</label>
+        </div>
+        <div class="basket_menu_img">
+          <img src="images/slide_nav/img_4.gif" alt="">
+        </div>
+        <div class="basket_menu_detail">
+          <div class="basket_menu_count">
+            <span>&nbsp&nbsp수량</span>
+            <form>
+              <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+              <input type="number" id="number" value="1" />
+              <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+            </form>
+          </div>
+          <div class="basket_menu_price">
+            <span>2000원</span>
+          </div>
+          <div class="basket_menu_share">
+            <ul class="basket_menu_share_ul">
+              <li><span class="basket_menu_share_span">공유 <i class="fas fa-share"></i> &nbsp&nbsp</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+
+
+    </div>
+  </div>
+  <script type="text/javascript">
+    function increaseValue() {
+      var value = parseInt(document.getElementById('number').value, 10);
+      value = isNaN(value) ? 0 : value;
+      value++;
+      document.getElementById('number').value = value;
+    }
+
+    function decreaseValue() {
+      var value = parseInt(document.getElementById('number').value, 10);
+      value = isNaN(value) ? 0 : value;
+      value < 1 ? value = 1 : '';
+      value--;
+      document.getElementById('number').value = value;
+    }
+  </script>
+
+  <div id="main">
+    <!-- basket -->
+
+    <header class="page-header" role="banner">
+      <div class="header">
+        <a href="index.html" class="header_logo"><img src="images/header_logo.png"></a>
+        <div class="header_menu">
+          <ul class="h_menu_left">
+            <li><a href="subpage_item_list.html">인형/토이</a></li>
+            <li><a href="">문구</a></li>
+            <li><a href="">패션</a></li>
+            <li><a href="">주방/욕실</a></li>
+            <li><a href="">리빙/데코</a></li>
+            <li><a href="">디지털/가전</a></li>
+            <li><a href="">여행</a></li>
+            <li><a href="">뷰티</a></li>
+          </ul>
+          <ul class="h_menu_right">
+            <li class="search_li"><a href="">
+                <input type="text" id="search_string" name="search_string">
+                <button onclick="goSearch()" type="submit" class="submit_btn"><i class="fa fa-search" aria-hidden="true"></i></button>
+              </a></li>
+            <li><a href="subpage_login.html"><i class="fas fa-user-circle"></i></a></li>
+            <li><span style="font-size:30px;cursor:pointer" class="shopping_basket" onclick="openNav()"><i class="fas fa-shopping-basket"></i></span></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <!-- 컨텐츠 시작 -->
+    <style media="screen">
+      .register_content_body {
+        width: 1200px;
+        margin: 0 auto;
+        padding: 50px 0 100px;
+
+        position: relative;
+      }
+
+      .register_logo {
+        display: block;
+        text-align: center;
+        margin-bottom: 50px;
+      }
+
+      .register_logo p {
+        display: inline-block;
+        padding: 20px 25px;
+        background: white;
+        font-size: 25px;
+        font-weight: bold;
+        letter-spacing: 5px;
+      }
+
+      .register_content_body::after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+
+      .register_information {
+        width: 460px;
+        height: 900px;
+        padding-left: 40px;
+        float: left;
+        background: #F3F0FF;
+        border-radius: 15px 0 0 15px;
+
+      }
+
+      .user_id_pw_information {
+        margin-bottom: 40px;
+      }
+
+      .user_id_pw_information_title {
+        padding-top: 20px;
+        margin: 10px 0;
+        font-weight: bolder;
+      }
+
+      .register_id {
+        width: 100%;
+        height: 60px;
+        margin-top: 5px;
+        padding-bottom: 30px;
+        padding-top: 10px;
+
+      }
+
+      .register_id p,
+      .register_birthofdate p,
+      .register_user_phone_number p,
+      .register_email_address p {
+        font-size: 15px;
+        margin-bottom: 10px; //padding-top:10px;
+      }
+
+      .id_pattern p {
+        padding-top: 0px;
+      }
+
+      .register_id input[type=text],
+      .register_email_address input[type=text] {
+        width: 345px;
+        height: 37px;
+        border: 1px solid grey;
+        font-size: 15px;
+        outline: none;
+        padding-left: 15px;
+      }
+
+      .register_id input[type=text]::placeholder {
+        font-size: 13px;
+        color: gray;
+      }
+
+      .id_pattern {
+        display: inline-block;
+        width: 340px;
+        height: 36px;
+        padding: 5px 0 0 20px;
+        line-height: 18px;
+        color: gray;
+        font-size: 13px !important;
+      }
+
+      .id_pattern:before {
+        content: "*";
+        display: inline-block;
+        height: 100%;
+        padding: 0 5px 0 0;
+        float: left;
+      }
+
+      .user_personal_informationt_title {
+
+        display: block;
+        margin-top: 10px;
+        font-weight: bolder;
+      }
+
+      .register_birthofdate,
+      .register_user_phone_number {
+        padding-bottom: 30px;
+      }
+
+      .register_birthofdate input[type=date] {
+        width: 345px;
+        height: 37px;
+        border: 1px solid grey;
+        outline: none;
+        padding-left: 15px;
+        color: gray;
+        font-size: 15px;
+      }
+
+      .register_user_phone_number input[type=tel] {
+        width: 107px;
+        height: 25px;
+        border: 1px solid grey;
+        outline: none;
+        color: gray;
+        font-size: 15px;
+        text-align: center;
+      }
+
+      .register_email_address {
+        margin-top: 20px;
+      }
+
+      .register_address {
+        width: 570px;
+        height: 900px;
+        float: right;
+        padding-left: 75px;
+        padding-right: 50px;
+        background: white;
+        background: #F9F7FF;
+        border-radius: 0 15px 15px 0;
+      }
+
+      .login_title img {
+        max-height: 100px;
+      }
+    </style>
+
+    <div class="register_content_body">
+      <div class="register_logo">
+        <a href="" class="login_title"><img src="images/register_title.png"></a>
+      </div>
+      <div class="register_information">
+        <div class="user_id_pw_information">
+          <p class="user_id_pw_information_title">회원 아이디 / 비밀번호</p>
+
+
+          <div class="register_id">
+            <p>아이디</p>
+            <input type="text" name="" value="" placeholder="아이디를 입력해주세요">
+            <p class="id_pattern">아이디는 영어 소문자+숫자의 조합으로 12자리 이내</p>
+          </div>
+
+          <div class="register_id">
+            <p>비밀번호</p>
+            <input type="text" name="" value="" placeholder="비밀번호를 입력해주세요">
+            <p class="id_pattern">특수문자와 숫자를 조합한 20자리 이내</p>
+          </div>
+
+          <div class="register_id">
+            <p>비밀번호 확인</p>
+            <input type="text" name="" value="" placeholder="비밀번호를 한번 더 입력해주세요">
+            <p class="id_pattern">비밀번호 확인을 위해 한번더 적어주세요</p>
+          </div>
+
+          <div class="register_email_address">
+            <p>이메일주소</p>
+            <input type="text" name="" value="" placeholder="youremail@mail.com">
+            <p class="id_pattern">이메일주소를 입력해주세요</p>
+          </div>
+
+        </div>
+
+        <div class="user_personal_information">
+          <p class="user_personal_informationt_title">회원 개인정보</p>
+          <div class="register_id">
+            <p>이름</p>
+            <input type="text" name="" value="" placeholder="이름을 입력해주세요">
+          </div>
+
+          <div class="register_birthofdate">
+            <p>생년월일</p>
+            <input type="date" name="" value="" required>
+          </div>
+
+          <div class="register_user_phone_number">
+            <p>휴대폰 번호</p>
+            <input type="tel" name="tel1" id="numberOnly" value="" maxlength="3" required /> -
+            <input type="tel" name="tel2" id="numberOnly" value="" maxlength="4" required /> -
+            <input type="tel" name="tel3" id="numberOnly" value="" maxlength="4" required>
+          </div>
+
+
+          <!--  -->
+          <script type="text/javascript">
+            $("#numberOnly").keyup(function(event) {
+              var inputVal = $(this).val();
+              $(this).val(inputVal.replace(/[^0-9]/g, ''));
+            });
+          </script>
+        </div>
+
+      </div>
+
+
+      <style media="screen">
+        .address_title {
+          padding: 0 0 20px;
+        }
+
+        .address_title:after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+
+        .address_city p,
+        .address_gu p,
+        .address_dong p,
+        .address_detail p {
+          margin-bottom: 7px;
+        }
+
+        .address_city,
+        .address_gu,
+        .address_dong,
+        .address_detail {
+          float: left;
+        }
+
+        .address_city,
+        .address_gu,
+        .address_dong {
+          width: 150px;
+          margin-right: 20px;
+          margin-bottom: 20px;
+        }
+
+        .address_city input[type=text],
+        .address_gu input[type=text],
+        .address_dong input[type=text] {
+          width: 150px;
+        }
+
+        .address_detail {
+          width: 500px;
+        }
+
+        .address_detail input[type=text] {
+          width: 470px;
+          padding: 5px 0;
+          padding-left: 20px;
+        }
+      </style>
+      <div class="register_address">
+        <p class="user_personal_informationt_title">회원 개인정보(주소)</p>
+        <div class="address_title">
+          <div class="address_city">
+            <p>시</p>
+            <input type="text" id="city" name="" value="" placeholder="ex)대전시">
+          </div>
+          <div class="address_gu">
+            <p>구</p>
+            <input type="text" id="gu" name="" value="" placeholder="ex)동구">
+          </div>
+          <div class="address_dong">
+            <p>동</p>
+            <input type="text" id="dong" name="" value="" placeholder="ex)자양동">
+          </div>
+          <div class="address_detail">
+            <p>상세주소</p>
+            <input type="text" id="address_detail" value="" placeholder="상세주소를 입력해주세요.">
+          </div>
+        </div>
+
+
+        <style media="screen">
+          .optional_info {
+            width: 100%;
+            padding: 0 0 20px;
+            border-bottom: 1px solid lightgray;
+            border-top: 1px solid lightgray;
+          }
+
+          .user_personal_informationt_title {
+            padding: 20px 0 15px;
+          }
+
+          .optional_mw {
+            width: 100%;
+            height: 60px;
+            margin-top: 5px;
+          }
+
+          .optional_mw p {
+            font-size: 15px;
+            font-weight: bold;
+          }
+
+          .optional_mw label {
+            font-size: 15px;
+            margin-right: 20px;
+          }
+
+          .prd_favorite {
+            width: 100%;
+            height: 100px;
+          }
+
+          .prd_favorite p {
+            font-size: 15px;
+            font-weight: bold;
+
+          }
+
+          .prd_favorite label {
+            font-size: 15px;
+            margin-right: 20px;
+          }
+
+          .prd_favorite input[type=radio] {}
+
+          .agree_email {
+            width: 90%;
+            height: 60px;
+          }
+
+          .agree_email p {
+            font-size: 15px;
+            font-weight: bold;
+          }
+
+          .agree_email span {
+            font-size: 15px;
+          }
+
+          .email_emphasize {
+            font-weight: bolder;
+          }
+        </style>
+        <div class="optional_info">
+          <p class="user_personal_informationt_title">선택 입력 정보</p>
+          <div class="optional_mw">
+            <p>성별</p>
+            <label for="male">
+              <input type="radio" id="male" name="gender" value="male" />
+              남자
+            </label>
+            <label for="female">
+              <input type="radio" id="female" name="gender" value="female" />
+              여자
+            </label>
+          </div>
+
+          <div class="prd_favorite">
+            <p>관심상품</p>
+            <label for="doll"><input type="checkbox" id="doll" name="chk_info" value="HTML"> 인형/토이</label>
+            <label for="fancy"><input type="checkbox" id="fancy" name="chk_info" value="HTML"> 문구</label>
+            <label for="fashion"><input type="checkbox" id="fashion" name="chk_info" value="HTML"> 패션</label>
+            <label for="kitchen"><input type="checkbox" id="kitchen" name="chk_info" value="HTML"> 주방/욕실</label>
+            <label for="digital"><input type="checkbox" id="digital" name="chk_info" value="HTML"> 디지털/가전</label>
+            <label for="deco"><input type="checkbox" id="deco" name="chk_info" value="HTML"> 리빙/데코</label>
+            <br>
+            <label for="doll"><input type="checkbox" id="doll" name="chk_info" value="HTML"> 인형/토이</label>
+            <label for="fancy"><input type="checkbox" id="fancy" name="chk_info" value="HTML"> 문구</label>
+            <label for="fashion"><input type="checkbox" id="fashion" name="chk_info" value="HTML"> 패션</label>
+            <label for="kitchen"><input type="checkbox" id="kitchen" name="chk_info" value="HTML"> 주방/욕실</label>
+            <label for="digital"><input type="checkbox" id="digital" name="chk_info" value="HTML"> 디지털/가전</label>
+            <label for="deco"><input type="checkbox" id="deco" name="chk_info" value="HTML"> 리빙/데코</label>
+
+          </div>
+
+          <div class="agree_email">
+            <p>이메일수신동의</p>
+            <label for="email_agree">
+              <input type="checkbox" id="email_agree" name="" value="">
+              <span> Color Pallete에서 오는 <span class="email_emphasize">광고/홍보 이메일 수신에 동의</span> 합니다.</span>
+            </label>
+          </div>
+        </div>
+
+        <style media="screen">
+          .terms_container {
+            width: 80%;
+            margin-top: 10px;
+            border: 1px solid #470093;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            background: white;
+          }
+
+          .terms_container p label {
+            display: block;
+            width: 95%;
+            padding: 10px 0 10px 5%;
+            border-bottom: 1px solid black;
+            font-size: 18px;
+            user-select: none;
+          }
+
+          .terms_container ul {
+            width: 100%;
+            float: left;
+          }
+
+          .terms_container ul li {
+            width: 90%;
+            background: white;
+            padding: 15px 5% 15px 5%;
+            border-bottom: 1px solid lightgray;
+            user-select: none;
+          }
+
+          .terms_container ul li:after {
+            content: "";
+            display: table;
+            clear: both;
+          }
+
+          .terms_left {
+            float: left;
+            font-size: 16px;
+          }
+
+          .terms_right {
+            float: right;
+            font-size: 16px;
+            cursor: pointer;
+          }
+        </style>
+        <div class="user_personal_informationt_title">
+          이용약관
+        </div>
+        <div class="terms_container">
+          <p>
+            <label for="terms_agree_all">
+              <input type="checkbox" id="terms_agree_all" name="" value="">
+              이용약관 전체동의
+            </label>
+          </p>
+          <ul>
+            <li class="terms">
+              <label for="terms_label">
+                <span class="terms_left">
+                  <input type="checkbox" id="terms_label" name="" value="" />&nbsp 이용약관 </span></label>
+              <span class="terms_right">보기 <i class="fas fa-caret-down"></i></span>
+            </li>
+            <li class="policy">
+              <label for="policy_label">
+                <span class="terms_left">
+                  <input type="checkbox" id="policy_label" name="" value="" />&nbsp 개인정보 취급방침</span></label>
+              <span class="terms_right">보기 <i class="fas fa-caret-down"></i></span>
+            </li>
+
+            <li class="3rd_offer">
+              <label for="3rd_label">
+                <span class="terms_left">
+                  <input type="checkbox" id="3rd_label" name="" value="" />&nbsp Color Pallete 개인정보 제 3자 제공</span></label>
+              <span class="terms_right">보기 <i class="fas fa-caret-down"></i></span>
+            </li>
+          </ul>
+        </div>
+        <style media="screen">
+          .register_access input[type=button] {
+            padding: 15px 25px;
+            font-size: 20px;
+            background: #8D5DF3;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 15px;
+            outline: none;
+            cursor: pointer;
+            margin-left: 25%;
+          }
+        </style>
+        <div class="register_access">
+          <input type='button' value='Collor Pallete 가입하기' />
+        </div>
+      </div>
+    </div>
+
+    <!-- 컨텐츠 시작 -->
+    <script src="swiper-5.4.5/package/js/swiper.min.js"></script>
+
+    <script>
+      function openNav() {
+        document.getElementById("mySidenav").style.width = "360px";
+        document.getElementById("main").style.marginRight = "360px";
+      }
+
+      function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginRight = "0";
+      }
+    </script>
+
+    <style>
+      #footer {
+        width: 100%;
+        height: 300;
+        background: #4c4852;
+      }
+
+      #footer_inner {
+        width: 1200px;
+        height: 300px;
+        margin: 0 auto;
+        position: relative;
+        text-align: center;
+        opacity: .7;
+      }
+
+      .footer_logo {
+        position: absolute;
+        top: 42px;
+        left: 510px;
+        max-width: 200px;
+      }
+
+      .footer_text {
+        position: absolute;
+        top: 150px;
+        left: 390px;
+        font: 13px "NanumBarunGothic";
+        color: #fff;
+      }
+    </style>
+    <div id="footer">
+      <div id="footer_inner">
+        <img src="images/footer_logo.png." class="footer_logo">
+
+        <p class="footer_text">
+          (주)컬러파레트&nbsp&nbsp|&nbsp&nbsp사업자등록번호 214-88-07825&nbsp&nbsp|&nbsp&nbsp대표이사 김철수 <br /><br />
+          주소: (06653) 서울특별시 서초구 반포대로 12길 41 &nbsp&nbsp|&nbsp&nbsp ARS 1544-0070 <br /><br />
+          본사 대표전화 및 가맹상담전화 : 010-7732-8394&nbsp&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp&nbsp통신판매업신고번호 제 833호<br /><br />
+          COPYRIGHT © Colorpalette, Inc. All rights reserved
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

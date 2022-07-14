@@ -1,0 +1,2600 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>
+  <script src="./js/vendor/modernizr.custom.min.js"></script>
+  <script src="./js/vendor/jquery-1.10.2.min.js"></script>
+  <script src="./js/vendor/jquery.ba-throttle-debounce.min.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+
+  <link rel="stylesheet" href="swiper-5.4.5/package/css/swiper.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.1/css/all.css">
+
+</head>
+
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    font: 18px "nbg";
+  }
+
+  a {
+    text-decoration: none;
+    color: #201f25;
+  }
+
+  li {
+    list-style-type: none;
+  }
+
+  body {
+    overflow-x: hidden;
+    color: #4F4F4F;
+    font-family: "nbg"
+  }
+
+  body,
+  html {
+    width: 100%;
+    background: #FDFCFF;
+  }
+
+  @font-face {
+    font-family: "nbg";
+    src: url("font/NanumBarunGothic.ttf");
+  }
+
+  .page-header {
+    width: 100%;
+    height: 240px;
+    padding-top: 40px;
+    padding-bottom: 10px;
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 99px;
+    opacity: 1;
+    background: #fff;
+    border-bottom: 1.2px solid #a9a2c8;
+    ;
+  }
+
+  .header_menu {
+    width: 1200px;
+    height: 50px;
+    margin: 0 auto;
+    //background:red;
+  }
+
+  .header_menu .h_menu_left {
+    float: left;
+  }
+
+  .header_menu .h_menu_right {
+    float: right;
+  }
+
+  .header_menu ul li {
+    float: left;
+    margin: 0 7px;
+
+    line-height: 50px;
+    text-align: center;
+
+    //border:1px solid yellow;
+  }
+
+  .header_menu ul li a {
+    font: 18px "nbg";
+    color: #585858;
+  }
+
+  .header_menu ul li a:hover {
+    font: 18px "nbg";
+    color: #ada4ee;
+  }
+
+
+  .header_logo {
+    width: 260px;
+    height: 110px; //background: tomato;
+    margin: 40px auto 40px;
+
+    display: block;
+  }
+
+  .search_li {
+    width: 160px;
+  }
+
+  #search_string {
+    font-size: 14px;
+    color: #e43c2f;
+    vertical-align: middle;
+    width: 145px;
+    padding: 5px 3%;
+    border: 0;
+    border-bottom: 2px solid #585858;
+    background: transparent;
+    display: inline;
+  }
+
+  .submit_btn {
+    margin-right: 10px;
+    color: #585858;
+    cursor: pointer;
+    display: inline;
+    margin-left: -40px;
+    border: none;
+    background: #fff;
+  }
+
+  .h_menu_right i {
+    font-size: 27px;
+  }
+
+  .h_menu_right .fa-search {
+    font-size: 20px;
+  }
+
+
+
+  .page-header-clone {
+    background-color: #fff;
+    position: fixed;
+    //border:3px solid blue;
+    top: -100px;
+    width: 100%;
+    height: 100px;
+    z-index: 9;
+    opacity: .9;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+    -webkit-transition: top 0.25s;
+    transition: top 0.25s;
+  }
+
+  .page-header-clone:hover {
+    opacity: 1;
+  }
+
+  .page-header-clone .header {
+    width: 100%;
+    height: 40px;
+
+  }
+
+  .page-header-clone .header_menu {
+    width: 1000px;
+    height: 35px;
+    position: absolute;
+    top: 45px;
+    left: 350px;
+  }
+
+  .page-header-clone.visible {
+    top: 0; //border:2px solid red;
+  }
+
+  .page-header-clone .header_logo {
+    margin: 6px 0 2px;
+    float: left;
+    margin-left: 80px;
+    height: 80px;
+    width: 200px;
+  }
+
+  .page-header-clone .h_menu_left {}
+
+  .page-header-clone .header_logo img {
+    display: block;
+    width: 200px;
+    height: 80px;
+    margin-top: -5px;
+    overflow: hidden;
+    padding-top: 8px;
+  }
+
+  .page-header-clone .header_logo a:before {
+    content: url("");
+    display: inline-block;
+    opacity: 1;
+  }
+</style>
+<script>
+  $(function() {
+    var $window = $(window),
+      $header = $('.page-header'),
+      $headerClone = $header.contents().clone(),
+      $headerCloneContainer = $('<div class="page-header-clone"></div>'),
+      $threshold = $header.offset().top + $header.outerHeight();
+
+    $headerCloneContainer.append($headerClone);
+    $headerCloneContainer.appendTo('body');
+
+    $window.scroll(function() {
+      if ($(this).scrollTop() >= $threshold) {
+        $headerCloneContainer.addClass('visible');
+      } else {
+        $headerCloneContainer.removeClass('visible');
+      }
+    });
+
+  });
+</script>
+
+
+
+<body>
+
+  <!-- basket -->
+  <style media="screen">
+    #browser_cover {
+      width: 100%;
+      height: 100%;
+      opacity: .4;
+      background: gray;
+      position: absolute;
+      left: 0;
+      z-index: 999999;
+      display: none;
+      animation: eee 0.3s;
+      position: fixed;
+    }
+
+    @keyframes eee {
+      from {
+        opacity: 0
+      }
+
+      to {
+        opacity: 0.4
+      }
+    }
+
+    #main {
+      transition: .5s;
+      padding: 0;
+    }
+  </style>
+  <div id="browser_cover" onclick="closeNav()">
+  </div>
+  <script type="text/javascript">
+    $(function() {
+      $(".shopping_basket").click(function() {
+        $("#browser_cover").css("display", "block");
+      });
+      $("#browser_cover").click(function() {
+        $("#browser_cover").css("display", "none");
+      });
+      $(".closebtn").click(function() {
+        $("#browser_cover").css("display", "none");
+      });
+    });
+  </script>
+  <style media="screen">
+    .sidenav {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      right: 0;
+      background-color: white;
+      border-left: 1px solid lightgray;
+      overflow: hidden;
+      transition: 0.5s;
+      z-index: 999999;
+
+    }
+
+    .sidenav a {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: 25px;
+      color: white;
+      display: inline-block;
+      transition: 0.3s;
+      position: absolute;
+    }
+
+    .sidenav a:hover {
+      color: #f2f2f2;
+    }
+
+    .sidenav .closebtn {
+      position: absolute;
+      top: 0;
+      right: 25px;
+      font-size: 36px;
+      margin-left: 50px;
+      color: black;
+    }
+
+    #main {
+      transition: .5s;
+      padding: 16px;
+    }
+
+    @media screen and (max-height: 450px) {
+      .sidenav {
+        padding-top: 15px;
+      }
+
+      .sidenav a {
+        font-size: 18px;
+      }
+    }
+  </style>
+  <script type="text/javascript">
+    $(function() {
+      $('#basket_select_all_span').click(function() {
+        var x = $("#basket_select_all_span").text();
+        if (x == "전체물품선택") {
+          $('input:checkbox[id="radio_1"]').prop("checked", true);
+          $("#basket_select_all_span").text('전체선택해지');
+        } else {
+          $('input:checkbox[id="radio_1"]').prop("checked", false);
+          $("#basket_select_all_span").text('전체물품선택');
+        }
+      });
+    });
+  </script>
+
+  <style media="screen">
+    .basket_head_img {
+      width: 100%;
+      height: 100px;
+    }
+
+    .basket_charge {
+      display: inline-block;
+      width: 100%;
+      height: 50px;
+      margin-top: 40px;
+      font-size: 20px;
+      text-align: center;
+      line-height: 50px;
+    }
+
+    .basket_charge_number {
+      font-size: 25px;
+    }
+
+    .basket_title {
+      width: 100%;
+    }
+
+    .basket_title div:hover {
+      background: #ADA4EE;
+      color: white;
+      border: 1px solid white;
+    }
+
+    .basket_title div:hover span {
+      color: white;
+    }
+
+    .basket_title::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    .basket_select_all,
+    .basket_delete_selected,
+    .basket_go_buy {
+      position: relative;
+      width: 95px;
+      height: 33px;
+      line-height: 35px;
+      border-radius: 10px;
+      text-align: center;
+      border: 1px solid #494949;
+      user-select: none;
+      cursor: pointer;
+      float: left;
+      margin: 0 9px;
+    }
+
+    .basket_select_all span,
+    .basket_delete_selected span,
+    .basket_go_buy span {
+      font-size: 15px;
+      color: #494949;
+    }
+
+    .basket_select_all span:hover,
+    .basket_delete_selected span:hover,
+    .basket_go_buy span:hover {
+      color: black;
+    }
+
+    .basket_menu_box {
+      width: 80%;
+      height: 85%;
+      padding: 0 10%;
+      overflow: hidden;
+      overflow-y: scroll;
+      direction: rtl;
+    }
+
+    .basket_menu {
+      width: 100%;
+      height: 185px;
+      background: white;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #494949;
+    }
+
+    .basket_menu:first-child {
+      margin-top: 20px;
+    }
+
+    .basket_menu:last-child {
+      margin-bottom: 10px;
+      border-bottom: none;
+    }
+
+    .basket_menu::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    .basket_menu_title {
+      width: 100%;
+      height: 40px;
+      position: relative;
+    }
+
+    .basket_menu_img {
+      width: 45%;
+      height: 130px;
+      float: left;
+    }
+
+    .basket_menu_img img {
+      width: 100%;
+      height: 90%;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    .basket_menu_title input[type=checkbox] {
+      display: inline-block;
+      float: left;
+      margin: 7px 10px 0 0;
+      zoom: 1.2;
+    }
+
+    label {
+      float: left;
+      line-height: 35px;
+    }
+
+    .basket_menu_detail {
+      width: 55%;
+      height: 110px;
+      float: right;
+      padding-top: 20px;
+    }
+
+    .basket_menu_detail .basket_menu_count form {
+      text-align: center;
+      float: right;
+
+    }
+
+    .basket_menu_count {
+      width: 100%;
+      height: 30px;
+    }
+
+    .value-button {
+      display: inline-block;
+      float: right;
+      border: 1px solid #ddd;
+      margin: 0px;
+      width: 20px;
+      height: 100%;
+      text-align: center;
+      vertical-align: middle;
+      background: #eee;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    .value-button:hover {
+      cursor: pointer;
+    }
+
+    input[type=number] {
+      width: 25px;
+      height: 100%;
+      text-align: center;
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .basket_menu_price {
+      width: 100%;
+      height: 30px;
+      line-height: 30px;
+    }
+
+    .basket_menu_box::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .basket_menu_box::-webkit-scrollbar-thumb {
+      background-color: #ADA4EE;
+      border-radius: 10px;
+    }
+
+    .basket_menu_box::-webkit-scrollbar-track {
+      background-color: grey;
+      border-radius: 10px;
+    }
+
+    .bottom {
+      width: 100%;
+      height: 100px;
+      background: green;
+    }
+
+    .basket_menu_share {
+      width: 100%;
+      height: 30px;
+    }
+
+    .basket_menu_share_ul {
+      float: right;
+    }
+
+    .basket_menu_share_ul li:first-child {
+      line-height: 30px;
+    }
+
+    .basket_menu_share_span {
+      font-size: 13px;
+    }
+
+    .fa-share {
+      font-size: 13px;
+    }
+
+    .basket_menu_share_li {
+      display: inline-block;
+      width: 25.5px;
+      height: 25.5px;
+      padding: 4.5px 4.5px 0 0;
+    }
+
+    .basket_menu_share_li img {
+      width: 21px;
+      height: 21px;
+      object-fit: cover;
+      cursor: pointer;
+    }
+  </style>
+  <div id="mySidenav" class="sidenav">
+    <div class="basket_head_img">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <span class="basket_charge">총 결제 금액 : &nbsp<span class="basket_charge_number">30000</span> 원 </span>
+    </div>
+    <div class="basket_title">
+      <div class="basket_select_all" id="basket_select_all_click">
+        <span id="basket_select_all_span">전체물품선택</span>
+      </div>
+      <div class="basket_delete_selected">
+        <span>선택물품삭제</span>
+      </div>
+      <div class="basket_go_buy">
+        <span>결제창으로</span>
+      </div>
+
+    </div>
+    <div class="basket_menu_box">
+
+      <div class="basket_menu">
+        <div class="basket_menu_title">
+          <label>
+            <input type="checkbox" id="radio_1" name="" value="">
+            댕댕이 슬리퍼</label>
+        </div>
+        <div class="basket_menu_img">
+          <img src="images/slide_nav/img_1.gif" alt="">
+        </div>
+        <div class="basket_menu_detail">
+          <div class="basket_menu_count">
+            <span>&nbsp&nbsp수량</span>
+            <form>
+              <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+              <input type="number" id="number" value="1" />
+              <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+            </form>
+          </div>
+          <div class="basket_menu_price">
+            <span>2000원</span>
+          </div>
+          <div class="basket_menu_share">
+            <ul class="basket_menu_share_ul">
+              <li><span class="basket_menu_share_span">공유 <i class="fas fa-share"></i> &nbsp&nbsp</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="basket_menu">
+        <div class="basket_menu_title">
+          <label>
+            <input type="checkbox" id="radio_1" name="" value="">
+            로봇 스탠드시계</label>
+        </div>
+        <div class="basket_menu_img">
+          <img src="images/slide_nav/img_2.gif" alt="">
+
+        </div>
+        <div class="basket_menu_detail">
+          <div class="basket_menu_count">
+            <span>&nbsp&nbsp수량</span>
+            <form>
+              <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+              <input type="number" id="number" value="1" />
+              <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+            </form>
+          </div>
+          <div class="basket_menu_price">
+            <span>2000원</span>
+          </div>
+          <div class="basket_menu_share">
+            <ul class="basket_menu_share_ul">
+              <li><span class="basket_menu_share_span">공유 <i class="fas fa-share"></i> &nbsp&nbsp</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="basket_menu">
+        <div class="basket_menu_title">
+          <label>
+            <input type="checkbox" id="radio_1" name="" value="">
+            구르미 무드등</label>
+        </div>
+        <div class="basket_menu_img">
+          <img src="images/slide_nav/img_3.gif" alt="">
+
+        </div>
+        <div class="basket_menu_detail">
+          <div class="basket_menu_count">
+            <span>&nbsp&nbsp수량</span>
+            <form>
+              <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+              <input type="number" id="number" value="1" />
+              <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+            </form>
+          </div>
+          <div class="basket_menu_price">
+            <span>2000원</span>
+          </div>
+          <div class="basket_menu_share">
+            <ul class="basket_menu_share_ul">
+              <li><span class="basket_menu_share_span">공유 <i class="fas fa-share"></i> &nbsp&nbsp</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="basket_menu">
+        <div class="basket_menu_title">
+          <label>
+            <input type="checkbox" id="radio_1" name="" value="">
+            해변 초</label>
+        </div>
+        <div class="basket_menu_img">
+          <img src="images/slide_nav/img_4.gif" alt="">
+        </div>
+        <div class="basket_menu_detail">
+          <div class="basket_menu_count">
+            <span>&nbsp&nbsp수량</span>
+            <form>
+              <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+              <input type="number" id="number" value="1" />
+              <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+            </form>
+          </div>
+          <div class="basket_menu_price">
+            <span>2000원</span>
+          </div>
+          <div class="basket_menu_share">
+            <ul class="basket_menu_share_ul">
+              <li><span class="basket_menu_share_span">공유 <i class="fas fa-share"></i> &nbsp&nbsp</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="basket_menu">
+        <div class="basket_menu_title">
+          <label>
+            <input type="checkbox" id="radio_1" name="" value="">
+            해변 초</label>
+        </div>
+        <div class="basket_menu_img">
+          <img src="images/slide_nav/img_4.gif" alt="">
+        </div>
+        <div class="basket_menu_detail">
+          <div class="basket_menu_count">
+            <span>&nbsp&nbsp수량</span>
+            <form>
+              <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+              <input type="number" id="number" value="1" />
+              <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+            </form>
+          </div>
+          <div class="basket_menu_price">
+            <span>2000원</span>
+          </div>
+          <div class="basket_menu_share">
+            <ul class="basket_menu_share_ul">
+              <li><span class="basket_menu_share_span">공유 <i class="fas fa-share"></i> &nbsp&nbsp</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="basket_menu">
+        <div class="basket_menu_title">
+          <label>
+            <input type="checkbox" id="radio_1" name="" value="">
+            해변 초</label>
+        </div>
+        <div class="basket_menu_img">
+          <img src="images/slide_nav/img_4.gif" alt="">
+        </div>
+        <div class="basket_menu_detail">
+          <div class="basket_menu_count">
+            <span>&nbsp&nbsp수량</span>
+            <form>
+              <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+              <input type="number" id="number" value="1" />
+              <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+            </form>
+          </div>
+          <div class="basket_menu_price">
+            <span>2000원</span>
+          </div>
+          <div class="basket_menu_share">
+            <ul class="basket_menu_share_ul">
+              <li><span class="basket_menu_share_span">공유 <i class="fas fa-share"></i> &nbsp&nbsp</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+
+
+    </div>
+  </div>
+  <script type="text/javascript">
+    function increaseValue() {
+      var value = parseInt(document.getElementById('number').value, 10);
+      value = isNaN(value) ? 0 : value;
+      value++;
+      document.getElementById('number').value = value;
+    }
+
+    function decreaseValue() {
+      var value = parseInt(document.getElementById('number').value, 10);
+      value = isNaN(value) ? 0 : value;
+      value < 1 ? value = 1 : '';
+      value--;
+      document.getElementById('number').value = value;
+    }
+  </script>
+
+  <div id="main">
+    <!-- basket -->
+
+
+    <header class="page-header" role="banner">
+      <div class="header">
+        <a href="index.html" class="header_logo"><img src="images/header_logo.png"></a>
+        <div class="header_menu">
+          <ul class="h_menu_left">
+            <li><a href="subpage_item_list.html">인형/토이</a></li>
+            <li><a href="">문구</a></li>
+            <li><a href="">패션</a></li>
+            <li><a href="">주방/욕실</a></li>
+            <li><a href="">리빙/데코</a></li>
+            <li><a href="">디지털/가전</a></li>
+            <li><a href="">여행</a></li>
+            <li><a href="">뷰티</a></li>
+          </ul>
+          <ul class="h_menu_right">
+            <li class="search_li"><a href="">
+                <input type="text" id="search_string" name="search_string">
+                <button onclick="goSearch()" type="submit" class="submit_btn"><i class="fa fa-search" aria-hidden="true"></i></button>
+              </a></li>
+            <li><a href="subpage_login.html"><i class="fas fa-user-circle"></i></a></li>
+            <li><span style="font-size:30px;cursor:pointer" class="shopping_basket" onclick="openNav()"><i class="fas fa-shopping-basket"></i></span></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <style media="screen">
+      #prd_box {
+        width: 1200px;
+        margin: 0 auto;
+      }
+
+      .prd_left {
+        width: 490px;
+        height: 600px;
+        float: left; //background:yellow;}
+
+        .prd_right {
+          width: 690px;
+          height: 600px;
+          float: right; //background:tomato;}
+
+          .prd_bottom {
+            clear: both;
+          }
+
+          .prd_imgbox {
+            width: 450px;
+            height: 450px;
+            margin: 0 auto;
+            margin-top: 20px;
+            background: url("images/subpage_prd/prd_img_.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+          }
+
+          .prd_imgbox.on1 {
+            background: url("images/subpage_prd/prd_side_img_1.jpg");
+            transition: .7s
+          }
+
+          .prd_imgbox.on2 {
+            background: url("images/subpage_prd/prd_side_img_2.jpg");
+            transition: .7s
+          }
+
+          .prd_imgbox.on3 {
+            background: url("images/subpage_prd/prd_side_img_3.jpg");
+            transition: .7s
+          }
+
+          .prd_imgbox.on4 {
+            background: url("images/subpage_prd/prd_side_img_4.jpg");
+            transition: .7s
+          }
+
+          .prd_imgbox.on5 {
+            background: url("images/subpage_prd/prd_side_img_5.jpg");
+            transition: .7s
+          }
+
+          .swiper3 {
+            width: 450px;
+            height: 100px;
+            //background:black;
+            margin-top: 15px;
+          }
+
+          .swiper3 img {
+            width: 100px;
+          }
+
+          .swiper3 .swiper-wrapper .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+          }
+
+          .swiper3 .swiper-wrapper .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+          }
+
+          .top_prd_img {
+            width: 100px;
+            height: 100px;
+          }
+
+          .top_prd_img img {
+            max-width: 100px;
+            object-fit: cover;
+          }
+
+          .swiper3 .swiper-pagination {
+            height: 30px;
+            background: white;
+            text-align: center;
+            position: absolute;
+            top: 80px;
+            opacity: .5;
+          }
+    </style>
+    <script>
+      $(document).ready(function() {
+
+
+        $(".tt1").mouseover(function() {
+          $(".prd_imgbox").removeClass("on2");
+          $(".prd_imgbox").removeClass("on3");
+          $(".prd_imgbox").removeClass("on4");
+          $(".prd_imgbox").removeClass("on5");
+          $(".prd_imgbox").addClass("on1");
+        });
+        $(".tt2").mouseover(function() {
+          $(".prd_imgbox").removeClass("on1");
+          $(".prd_imgbox").removeClass("on3");
+          $(".prd_imgbox").removeClass("on4");
+          $(".prd_imgbox").removeClass("on5");
+          $(".prd_imgbox").addClass("on2");
+        });
+        $(".tt3").mouseover(function() {
+          $(".prd_imgbox").removeClass("on1");
+          $(".prd_imgbox").removeClass("on2");
+          $(".prd_imgbox").removeClass("on4");
+          $(".prd_imgbox").removeClass("on5");
+          $(".prd_imgbox").addClass("on3");
+        });
+        $(".tt4").mouseover(function() {
+          $(".prd_imgbox").removeClass("on1");
+          $(".prd_imgbox").removeClass("on2");
+          $(".prd_imgbox").removeClass("on3");
+          $(".prd_imgbox").removeClass("on5");
+          $(".prd_imgbox").addClass("on4");
+        });
+        $(".tt5").mouseover(function() {
+          $(".prd_imgbox").removeClass("on1");
+          $(".prd_imgbox").removeClass("on2");
+          $(".prd_imgbox").removeClass("on3");
+          $(".prd_imgbox").removeClass("on4");
+          $(".prd_imgbox").addClass("on5");
+        });
+        $(".content_container_middle").mouseleave(function() {
+          $(".prd_imgbox").removeClass("on1");
+          $(".prd_imgbox").removeClass("on2");
+          $(".prd_imgbox").removeClass("on3");
+          $(".prd_imgbox").removeClass("on4");
+          $(".prd_imgbox").removeClass("on5");
+        });
+
+
+      });
+    </script>
+
+    <div id="prd_box">
+      <div class="prd_left">
+        <div class="prd_imgbox">
+        </div>
+        <div class="swiper-container swiper3">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="top_prd_img tt1"><img src="images/subpage_prd/prd_side_img_1.jpg" alt=""></div>
+            </div>
+            <div class="swiper-slide">
+              <div class="top_prd_img tt2"><img src="images/subpage_prd/prd_side_img_2.jpg" alt=""></div>
+            </div>
+            <div class="swiper-slide">
+              <div class="top_prd_img tt3"><img src="images/subpage_prd/prd_side_img_3.jpg" alt=""></div>
+            </div>
+            <div class="swiper-slide">
+              <div class="top_prd_img tt4"><img src="images/subpage_prd/prd_side_img_4.jpg" alt=""></div>
+            </div>
+            <div class="swiper-slide">
+              <div class="top_prd_img tt5"><img src="images/subpage_prd/prd_side_img_5.jpg" alt=""></div>
+            </div>
+
+          </div>
+          <!-- Add Pagination -->
+          <div class="swiper-pagination"></div>
+          <!-- Add Arrows -->
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+
+        <style>
+          .prd_right .prd_name {
+            width: 670px;
+            height: 80px;
+            font: 35px "nbg";
+            padding-left: 10px;
+            line-height: 100px;
+            color: #5f5867;
+            font-weight: bold;
+          }
+
+          .prd_right .title_tag img {
+            max-height: 30px;
+            line-height: 80px;
+            padding-righr: 20px;
+          }
+
+          .prd_right_ul_box {
+            width: 650px;
+            height: 250px;
+            margin: 0 auto; //background:white;}
+
+            .prd_right ul {
+              margin: 0 auto;
+            }
+
+            .prd_right_ul_1 {
+              width: 130px;
+              float: left;
+              margin-left: 20px;
+              color: #ada4ee;
+            }
+
+            .prd_right_ul_2 {
+              width: 500px;
+              float: right;
+              margin-right: 20px;
+            }
+
+            .prd_right_ul_3 {
+              width: 100%;
+              clear: both;
+            }
+
+            .prd_right ul li {
+              width: 100%;
+              height: 60px;
+              //border:1px solid black;
+              font: 20px "nbg";
+              line-height: 60px;
+              font-weight: bold;
+            }
+
+            .prd_right_ul_box .prd_right_ul_3 li {
+              height: 70px;
+              font: 25px "nbg";
+              line-height: 70px;
+            }
+
+            .prd_right_ul_box .prd_right_ul_3 span {
+              width: 170px;
+              float: right;
+              font: 35px "nbg";
+              line-height: 70px;
+              font-weight: bold
+            }
+
+
+            .prd_num {
+              width: 183px;
+              height: 44px;
+              border: 1px solid gray;
+              border-radius: 50px;
+              overflow: hidden;
+              //background:black;
+              float: right;
+              margin-right: 15px;
+              margin-top: 8px;
+            }
+
+            .prd_num {
+              position: relative;
+            }
+
+            .prd_num input {
+              position: absolute;
+            }
+
+            .btnStockQty_1,
+            .btnStockQty_2 {
+              width: 50px;
+              height: 50px;
+              border: 1px solid #fff;
+            }
+
+            .stockqty {
+              width: 100px;
+              height: 50px;
+              text-align: center;
+              border: 1px solid #fff;
+            }
+
+            .btnStockQty_1 {
+              top: -2px;
+              left: -5px
+            }
+
+            .stockqty {
+              top: -2px;
+              left: 45px;
+            }
+
+            .btnStockQty_2 {
+              top: -2px;
+              left: 140px
+            }
+
+            .prd_right_ul_3::after {
+              content: '';
+              display: block;
+              clear: both;
+            }
+
+            .butt_box {
+              position: relative;
+              //background:red; line-height:40px; margin-top:10px;
+            }
+
+            .butt_box p {
+              margin-top: 20px;
+              display: inline-block;
+              width: 200px;
+              height: 50px;
+              line-height: 40px;
+              text-align: center;
+              line-height: 50px;
+              color: #fec689;
+              border-radius: 15px;
+            }
+
+            .share_button {
+              left: 60px;
+            }
+
+            .butt_box p a {
+              color: #5f5867;
+              font: 22px "nbg";
+            }
+
+            .cart_butt {
+              background: #fec689;
+              border: 1px solid #fec689;
+              margin-left: 230px;
+            }
+
+            .buy_butt {
+              background: #dbc8ff;
+              border: 1px solid #dbc8ff;
+              margin-left: 10px;
+            }
+
+            .m_line {
+              display: block;
+              width: 100%;
+              height: 1px;
+              background: #c3b4c8;
+              margin: 10px 0px;
+            }
+
+            .like_button,
+            .share_button {
+              position: absolute;
+
+              padding: 5px;
+
+              color: #f67d8e;
+              background: #fff;
+
+              border: 2px solid #f67d8e;
+              border-radius: 10px;
+
+              opacity: .9;
+            }
+
+            .like_button i,
+            .share_button i {
+              font-size: 36px;
+            }
+
+            .sale_before {
+              color: #c2b6cb;
+            }
+
+            .sale_after {
+              color: #ed6363;
+              font-weight: bold;
+            }
+        </style>
+
+      </div>
+      <div class="prd_right">
+        <p class="prd_name"> <span class="title_tag"><img src="images/tag_sale.png"></span> 촉촉한 베이커니 5인분</p>
+        <div class="prd_right_ul_box">
+          <ul class="prd_right_ul_1">
+            <li>판매가</li>
+            <li>세일적용가</li>
+            <li>배송비</li>
+            <li>상품코드</li>
+
+          </ul>
+          <ul class="prd_right_ul_2">
+            <li><span class="sale_before">28,000원</span></li>
+            <li><span class="sale_after">22,400원</span></li>
+            <li>3,000원</li>
+            <li>1811190177</li>
+          </ul>
+          <span class="m_line"></span>
+          <ul class="prd_right_ul_3">
+            <li>총 수량
+              <div class="prd_num">
+                <input type="button" class="btnStockQty_1" value="-">
+                <input type="tel" class="stockqty" name="stockqty" value="1" maxlength="4">
+                <input type="button" class="btnStockQty_2" value="+">
+              </div>
+            </li>
+            <li>총 합계금액 <span>22,400원</span></li>
+          </ul>
+          <span class="m_line"></span>
+          <div class="butt_box">
+            <button class="like_button"><i class="far fa-heart"></i></button>
+            <button class="share_button"><i class="fas fa-share-alt"></i></button>
+
+            <p class="cart_butt"><a href="">
+                <i class="fas fa-shopping-basket"></i> 장바구니
+              </a></p>
+
+            <p class="buy_butt"><a href="">
+                <i class="far fa-credit-card"></i> 구매하기
+              </a></p>
+          </div>
+        </div>
+      </div>
+      <div class="prd_bottom">
+
+      </div>
+    </div>
+
+    <style media="screen">
+      .related_prd_container {
+        width: 1200px;
+        height: 350px;
+        margin: 0 auto 30px;
+      }
+
+      .swiper1 {
+        width: 100%;
+        height: 300px;
+      }
+
+      .related_prd_container_title,
+      .most_viewed_prd_container_title {
+        width: 100%;
+        height: 50px;
+        line-height: 50px;
+      }
+
+      .swiper1 .swiper-wrapper .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+      }
+
+      .most_viewed_prd_container {
+        width: 1200px;
+        height: 400px;
+        margin: 0 auto 50px;
+        border-bottom: 1px solid black;
+        padding: bottom:50px;
+      }
+
+      .swiper2 {
+        width: 100%;
+        height: 300px;
+      }
+
+      .swiper2 .swiper-wrapper .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+      }
+    </style>
+
+    </head>
+
+    <body>
+      <!-- Swiper -->
+      <div class="related_prd_container">
+        <style media="screen">
+          .prd_img {
+            width: 224px;
+            height: 224px;
+          }
+
+          .prd_img img {
+            max-width: 224px;
+            object-fit: cover;
+          }
+
+          .prd_detail {
+            width: 224px;
+            height: 69px;
+            padding-top: 7px;
+          }
+
+          .prd_name {
+            width: 100%;
+            height: 36px;
+            font-size: 15px;
+            margin-bottom: 7px;
+          }
+
+          .prd_price {
+            font-size: 15px;
+          }
+        </style>
+        <div class="related_prd_container_title">
+          이 상품과 관련된 상품들
+        </div>
+        <div class="swiper-container swiper1">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <a href="#">
+                <div class="prd_img">
+                  <img src="images/subpage_list/prd_img_2.jpg" alt="">
+                </div>
+                <div class="prd_detail">
+                  <div class="prd_name">
+                    농담곰 봉제 인형 ver.2 30cm <br>(2 options)
+                  </div>
+                  <div class="prd_price">
+                    18,000원
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="swiper-slide">
+              <a href="#">
+                <div class="prd_img">
+                  <img src="images/subpage_list/prd_img_1.jpg" alt="">
+                </div>
+                <div class="prd_detail">
+                  <div class="prd_name">
+                    농담곰 봉제 인형 ver.2 30cm <br>(2 options)
+                  </div>
+                  <div class="prd_price">
+                    18,000원
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="swiper-slide">
+              <a href="#">
+                <div class="prd_img">
+                  <img src="images/subpage_list/prd_img_4.jpg" alt="">
+                </div>
+                <div class="prd_detail">
+                  <div class="prd_name">
+                    농담곰 봉제 인형 ver.2 30cm <br>(2 options)
+                  </div>
+                  <div class="prd_price">
+                    18,000원
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="swiper-slide">
+              <a href="#">
+                <div class="prd_img">
+                  <img src="images/subpage_list/prd_img_8.jpg" alt="">
+                </div>
+                <div class="prd_detail">
+                  <div class="prd_name">
+                    농담곰 봉제 인형 ver.2 30cm <br>(2 options)
+                  </div>
+                  <div class="prd_price">
+                    18,000원
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="swiper-slide">
+              <a href="#">
+                <div class="prd_img">
+                  <img src="images/subpage_list/prd_img_10.jpg" alt="">
+                </div>
+                <div class="prd_detail">
+                  <div class="prd_name">
+                    농담곰 봉제 인형 ver.2 30cm <br>(2 options)
+                  </div>
+                  <div class="prd_price">
+                    18,000원
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="swiper-slide">
+              <a href="#">
+                <div class="prd_img">
+                  <img src="images/subpage_list/prd_img_1.jpg" alt="">
+                </div>
+                <div class="prd_detail">
+                  <div class="prd_name">
+                    농담곰 봉제 인형 ver.2 30cm <br>(2 options)
+                  </div>
+                  <div class="prd_price">
+                    18,000원
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+          <!-- Add Pagination -->
+          <div class="swiper-pagination"></div>
+          <!-- Add Arrows -->
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+
+      </div>
+
+      <div class="most_viewed_prd_container">
+        <div class="most_viewed_prd_container_title">
+          가장 인기있는상품
+        </div>
+        <div class="swiper-container swiper2">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <a href="#">
+                <div class="prd_img">
+                  <img src="images/subpage_list/prd_img_10.jpg" alt="">
+                </div>
+                <div class="prd_detail">
+                  <div class="prd_name">
+                    농담곰 봉제 인형 ver.2 30cm <br>(2 options)
+                  </div>
+                  <div class="prd_price">
+                    18,000원
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="swiper-slide">
+              <a href="#">
+                <div class="prd_img">
+                  <img src="images/subpage_list/prd_img_10.jpg" alt="">
+                </div>
+                <div class="prd_detail">
+                  <div class="prd_name">
+                    농담곰 봉제 인형 ver.2 30cm <br>(2 options)
+                  </div>
+                  <div class="prd_price">
+                    18,000원
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="swiper-slide">
+              <a href="#">
+                <div class="prd_img">
+                  <img src="images/subpage_list/prd_img_10.jpg" alt="">
+                </div>
+                <div class="prd_detail">
+                  <div class="prd_name">
+                    농담곰 봉제 인형 ver.2 30cm <br>(2 options)
+                  </div>
+                  <div class="prd_price">
+                    18,000원
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="swiper-slide">
+              <a href="#">
+                <div class="prd_img">
+                  <img src="images/subpage_list/prd_img_10.jpg" alt="">
+                </div>
+                <div class="prd_detail">
+                  <div class="prd_name">
+                    농담곰 봉제 인형 ver.2 30cm <br>(2 options)
+                  </div>
+                  <div class="prd_price">
+                    18,000원
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="swiper-slide">
+              <a href="#">
+                <div class="prd_img">
+                  <img src="images/subpage_list/prd_img_10.jpg" alt="">
+                </div>
+                <div class="prd_detail">
+                  <div class="prd_name">
+                    농담곰 봉제 인형 ver.2 30cm <br>(2 options)
+                  </div>
+                  <div class="prd_price">
+                    18,000원
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="swiper-slide">
+              <a href="#">
+                <div class="prd_img">
+                  <img src="images/subpage_list/prd_img_10.jpg" alt="">
+                </div>
+                <div class="prd_detail">
+                  <div class="prd_name">
+                    농담곰 봉제 인형 ver.2 30cm <br>(2 options)
+                  </div>
+                  <div class="prd_price">
+                    18,000원
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="swiper-slide">
+              <a href="#">
+                <div class="prd_img">
+                  <img src="images/subpage_list/prd_img_10.jpg" alt="">
+                </div>
+                <div class="prd_detail">
+                  <div class="prd_name">
+                    농담곰 봉제 인형 ver.2 30cm <br>(2 options)
+                  </div>
+                  <div class="prd_price">
+                    18,000원
+                  </div>
+                </div>
+              </a>
+            </div>
+
+          </div>
+          <!-- Add Pagination -->
+          <div class="swiper-pagination"></div>
+          <!-- Add Arrows -->
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+
+      </div>
+
+      <!-- 스티키, 상품상세 div -->
+
+      <style media="screen">
+        .content_container {
+          width: 1200px;
+          margin: 0 auto;
+          background: white;
+
+        }
+
+        .content_container_sticky {
+          width: 100%;
+          position: -webkit-sticky;
+          position: sticky;
+          top: 110px;
+          margin-bottom: 50px;
+        }
+
+        .content_container_sticky ul {}
+
+        .content_container_sticky ul::after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+
+        .content_container_sticky ul li {
+          float: left;
+          display: inline-block;
+          width: 373px;
+          height: 58px;
+          line-height: 60px;
+          text-align: center;
+          border: 1px solid #ADA4EE;
+          margin: 0 10px;
+          border-radius: 10px;
+          user-select: none;
+          cursor: pointer;
+          background: white;
+        }
+
+        .btn_active {
+          background: #ADA4EE !important;
+          font-weight: bold;
+          color: white;
+        }
+      </style>
+      <div class="content_container">
+        <nav class="content_container_sticky">
+          <ul>
+            <li id="btn_prd_detail">상품상세정보</li>
+            <li id="btn_prd_review">상품리뷰 ( 40 )</li>
+            <li id="btn_prd_inquiry">상품문의 ( 22 )</li>
+          </ul>
+        </nav>
+        <style media="screen">
+          .prd_detail_container {
+            width: 100%;
+            margin-bottom: 80px;
+          }
+
+          .prd_detail_container img {
+            max-width: 1200px;
+          }
+        </style>
+        <div class="prd_detail_container">
+          <img src="images/subpage_prd/prd_info_1.jpg" alt="">
+          <img src="images/subpage_prd/prd_info_2.jpg" alt="">
+          <img src="images/subpage_prd/prd_info_3.jpg" alt="">
+        </div>
+
+        <style media="screen">
+          .prd_review_container {
+            width: 100%;
+            padding: 40px 0;
+          }
+
+          .prd_review_title {
+            height: 50px;
+            line-height: 50px;
+            border-bottom: 3px solid #ADA4EE;
+            font-size: 30px;
+          }
+
+          .prd_review_box {
+            border-bottom: 1px solid #ADA4EE;
+          }
+
+          .prd_review_top ul {}
+
+          .prd_review_top ul::after {
+            content: "";
+            display: table;
+            clear: both;
+          }
+
+          .prd_review_top ul li {
+            float: left;
+            display: inline-block;
+            text-align: center;
+            height: 50px;
+            line-height: 50px;
+          }
+
+          .review_rating {
+            width: 10%
+          }
+
+          .review_user_title {
+            width: 60%;
+            text-align: left !important;
+            cursor: pointer
+          }
+
+          .review_date {
+            width: 15%
+          }
+
+          .review_username {
+            width: 15%
+          }
+
+          .prd_review_bottom {
+            margin-left: 10%;
+            display: none;
+          }
+
+          .prd_review_bottom ul {
+            width: 100%;
+            border-bottom: 1px solid lightgray;
+            ;
+          }
+
+          .prd_review_bottom ul::after {
+            content: "";
+            display: table;
+            clear: both;
+          }
+
+          .prd_review_bottom ul li {
+            float: left;
+            display: inline-block;
+            text-align: center;
+            line-height: 50px;
+            margin-right: 20px;
+          }
+
+          .prd_review_bottom_color {
+            color: #ADA4EE;
+            font-weight: 600;
+            margin-right: 10px;
+
+          }
+
+          .prd_review_bottom_detail {
+            margin: 20px 0 30px 0;
+          }
+        </style>
+
+        <div class="prd_review_container">
+          <style media="screen">
+          </style>
+
+          <div class="prd_review">
+            <div class="prd_review_title">
+              고객님들의 후기
+            </div>
+            <div class="prd_review_box">
+              <div class="prd_review_top">
+                <ul>
+                  <li class="review_rating">★★★★★</li>
+                  <li class="review_user_title">인형너무좋아요잘쓸게요. 재구매의사있어요ㅋㅋ</li>
+                  <li class="review_date">2020-12-08</li>
+                  <li class="review_username">jangn****</li>
+                </ul>
+              </div>
+              <div class="prd_review_bottom">
+                <ul>
+                  <li> <span class="prd_review_bottom_color">배송속도</span> 빨라요 </li>
+                  <li> <span class="prd_review_bottom_color">사이즈</span> 생각보다커요 </li>
+                  <li> <span class="prd_review_bottom_color">마감</span> 깔끔해요 </li>
+                </ul>
+                <div class="prd_review_bottom_detail">
+                  아이들이 인형을 좋아해서 아주 만족합니다!
+                </div>
+              </div>
+            </div>
+
+            <div class="prd_review_box">
+              <div class="prd_review_top">
+                <ul>
+                  <li class="review_rating">★★★★★</li>
+                  <li class="review_user_title">인형너무좋아요잘쓸게요. 재구매의사있어요ㅋㅋ</li>
+                  <li class="review_date">2020-12-08</li>
+                  <li class="review_username">jangn****</li>
+                </ul>
+              </div>
+              <div class="prd_review_bottom">
+                <ul>
+                  <li> <span class="prd_review_bottom_color">배송속도</span> 빨라요 </li>
+                  <li> <span class="prd_review_bottom_color">사이즈</span> 생각보다커요 </li>
+                  <li> <span class="prd_review_bottom_color">마감</span> 깔끔해요 </li>
+                </ul>
+                <div class="prd_review_bottom_detail">
+                  아이들이 인형을 좋아해서 아주 만족합니다!
+                </div>
+              </div>
+            </div>
+
+            <div class="prd_review_box">
+              <div class="prd_review_top">
+                <ul>
+                  <li class="review_rating">★★★★★</li>
+                  <li class="review_user_title">인형너무좋아요잘쓸게요. 재구매의사있어요ㅋㅋ</li>
+                  <li class="review_date">2020-12-08</li>
+                  <li class="review_username">jangn****</li>
+                </ul>
+              </div>
+              <div class="prd_review_bottom">
+                <ul>
+                  <li> <span class="prd_review_bottom_color">배송속도</span> 빨라요 </li>
+                  <li> <span class="prd_review_bottom_color">사이즈</span> 생각보다커요 </li>
+                  <li> <span class="prd_review_bottom_color">마감</span> 깔끔해요 </li>
+                </ul>
+                <div class="prd_review_bottom_detail">
+                  아이들이 인형을 좋아해서 아주 만족합니다!
+                </div>
+              </div>
+            </div>
+
+            <div class="prd_review_box">
+              <div class="prd_review_top">
+                <ul>
+                  <li class="review_rating">★★★★★</li>
+                  <li class="review_user_title">인형너무좋아요잘쓸게요. 재구매의사있어요ㅋㅋ</li>
+                  <li class="review_date">2020-12-08</li>
+                  <li class="review_username">jangn****</li>
+                </ul>
+              </div>
+              <div class="prd_review_bottom">
+                <ul>
+                  <li> <span class="prd_review_bottom_color">배송속도</span> 빨라요 </li>
+                  <li> <span class="prd_review_bottom_color">사이즈</span> 생각보다커요 </li>
+                  <li> <span class="prd_review_bottom_color">마감</span> 깔끔해요 </li>
+                </ul>
+                <div class="prd_review_bottom_detail">
+                  아이들이 인형을 좋아해서 아주 만족합니다!
+                </div>
+              </div>
+            </div>
+
+            <div class="prd_review_box">
+              <div class="prd_review_top">
+                <ul>
+                  <li class="review_rating">★★★★★</li>
+                  <li class="review_user_title">인형너무좋아요잘쓸게요. 재구매의사있어요ㅋㅋ</li>
+                  <li class="review_date">2020-12-08</li>
+                  <li class="review_username">jangn****</li>
+                </ul>
+              </div>
+              <div class="prd_review_bottom">
+                <ul>
+                  <li> <span class="prd_review_bottom_color">배송속도</span> 빨라요 </li>
+                  <li> <span class="prd_review_bottom_color">사이즈</span> 생각보다커요 </li>
+                  <li> <span class="prd_review_bottom_color">마감</span> 깔끔해요 </li>
+                </ul>
+                <div class="prd_review_bottom_detail">
+                  아이들이 인형을 좋아해서 아주 만족합니다!
+                </div>
+              </div>
+            </div>
+
+            <style media="screen">
+              .paging_container {
+                width: 500px;
+                height: 23px;
+                margin: 40px auto 40px;
+              }
+
+              .paging_container::after {
+                content: "";
+                display: table;
+                clear: both;
+              }
+
+              .paging_container ul {
+                display: table;
+                margin: 0 auto;
+              }
+
+              .paging_container ul li {
+                float: left;
+                margin-right: 15px;
+                text-align: center;
+              }
+
+              .paging_container ul li a {
+                display: inline-block;
+                width: 15px;
+                color: gray;
+                font-size: 20px;
+                line-height: 28px;
+              }
+
+              .paging_container ul li a:hover {
+                color: #F8B6B8;
+                font-weight: bolder;
+                transition: 0.2s;
+              }
+
+              .paging_selected {
+                display: inline-block;
+                width: 25px !important;
+                height: 100%;
+                background: #CD69FF;
+                font-weight: bolder;
+                color: white !important;
+                border-radius: 30%;
+                font-size: 18px !important;
+                line-height: 27px;
+              }
+            </style>
+
+            <div class="paging_container">
+              <ul>
+                <li></li>
+                <li><a href="#" class="paging_selected">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a> </li>
+                <li><a href="#">4</a> </li>
+                <li><a href="#">5</a> </li>
+                <li><a href="#"><i class="fas fa-angle-right"></i></a></li>
+                <li><a href="#"><i class="fas fa-angle-double-right"></i></a></li>
+              </ul>
+            </div>
+
+          </div>
+          <script>
+            $(".prd_review_top").eq(0).click(function() {
+              $(".prd_review_bottom").eq(0).toggle(1).css("display", "block");
+            });
+            $(".prd_review_top").eq(1).click(function() {
+              $(".prd_review_bottom").eq(1).toggle(1).css("display", "block");
+            });
+            $(".prd_review_top").eq(2).click(function() {
+              $(".prd_review_bottom").eq(2).toggle(1).css("display", "block");
+            });
+            $(".prd_review_top").eq(3).click(function() {
+              $(".prd_review_bottom").eq(3).toggle(1).css("display", "block");
+            });
+            $(".prd_review_top").eq(4).click(function() {
+              $(".prd_review_bottom").eq(4).toggle(1).css("display", "block");
+            });
+          </script>
+        </div>
+        <style media="screen">
+          .prd_inquiry_container {
+            width: 100%;
+            padding: 40px 0 60px;
+          }
+
+          .prd_inquiry_title {
+            height: 45px;
+            border-bottom: 3px solid #ADA4EE;
+          }
+
+          .prd_inquiry_title p {
+            display: inline-block;
+            font-size: 30px;
+            position: absolute;
+          }
+
+          .prd_inquiry_title ul {
+            float: right
+          }
+
+          .prd_inquiry_title ul::after {
+            content: "";
+            display: table;
+            clear: both;
+          }
+
+          .prd_inquiry_title li {
+            float: left;
+            display: inline-block;
+            padding: 5px 10px;
+            margin-right: 15px;
+            color: white;
+            font-size: 14px;
+            border-radius: 3px;
+            margin-top: 10px;
+          }
+
+          .write_inquiry {
+            background: #7E7989;
+          }
+
+          .write_inquiry:hover {
+            color: black;
+            transition: 0.1s;
+          }
+
+          .seemy_inquiry {
+            background: #D2CAE3;
+          }
+
+          .seemy_inquiry:hover {
+            color: black;
+            transition: 0.3s;
+          }
+
+          .prd_inquiry_box {
+            border-bottom: 1px solid #ADA4EE;
+          }
+
+          .prd_inquiry_top ul {}
+
+          .prd_inquiry_top ul::after {
+            content: "";
+            display: table;
+            clear: both;
+          }
+
+          .prd_inquiry_top ul li {
+            float: left;
+            display: inline-block;
+            text-align: center;
+            height: 50px;
+            line-height: 50px;
+          }
+
+          .inquiry_rating {
+            width: 10%
+          }
+
+          .inquiry_user_title {
+            width: 60%;
+            text-align: left !important;
+            cursor: pointer
+          }
+
+          .inquiry_date {
+            width: 15%
+          }
+
+          .inquiry_username {
+            width: 15%
+          }
+
+          .prd_inquiry_bottom {
+            padding-left: 10%;
+            background: #F2F0FF;
+            display: none;
+          }
+
+          .prd_inquiry_bottom_color {
+            color: #ADA4EE;
+            font-weight: 600;
+            margin-right: 10px;
+          }
+
+          .prd_inquiry_bottom_qanda {
+            margin: 20px 0 30px 0;
+          }
+
+          .prd_inquiry_bottom_question {
+            width: 100%;
+            border-bottom: 1px solid lightgray;
+            padding: 20px 0 20px;
+            margin-bottom: 20px;
+            line-height: 30px;
+          }
+
+          .prd_inquiry_bottom_answer {
+            padding-bottom: 20px
+          }
+
+          .prd_inquiry_bottom_answer::after {
+            content: "";
+            display: table;
+            clear: both;
+          }
+
+          .prd_inquiry_bottom_answer_icon_div {
+            height: 100%;
+            float: left;
+            position: relative;
+          }
+
+          .prd_inquiry_bottom_answer_div {
+            width: 90%;
+            height: 100%;
+            float: left;
+            line-height: 25px;
+          }
+
+          .answer_icon {
+            border: 1px solid #ADA4EE;
+            background: #ADA4EE;
+            color: white;
+            display: inline-block;
+            padding: 3px 5px;
+            font-size: 15px;
+            margin: 0 20px 0 5px
+          }
+
+          .answer_arrow {
+            height: 100%;
+            display: inline-block;
+            position: relative;
+            top: 2px
+          }
+        </style>
+        <div class="prd_inquiry_container">
+
+          <div class="prd_inquiry">
+            <div class="prd_inquiry_title">
+              <p class="prd_inquiry_title_p">Q & A</p>
+              <ul>
+                <a href="#">
+                  <li class="write_inquiry">문의등록</li>
+                </a>
+                <a href="#">
+                  <li class="seemy_inquiry">나의문의조회 &nbsp></li>
+                </a>
+              </ul>
+            </div>
+            <div class="prd_inquiry_box">
+              <div class="prd_inquiry_top">
+                <ul>
+                  <li class="inquiry_rating">답변 준비중</li>
+                  <li class="inquiry_user_title">인형 음성 나오게 하는거 어떻게 하나요?</li>
+                  <li class="inquiry_date">2020-12-08</li>
+                  <li class="inquiry_username">jangn****</li>
+                </ul>
+              </div>
+              <div class="prd_inquiry_bottom">
+                <div class="prd_inquiry_bottom_qanda">
+                  <div class="prd_inquiry_bottom_question">
+                    인형 음성 나오게 하는거 어떻게 하나요?
+                  </div>
+                  <div class="prd_inquiry_bottom_answer">
+                    <div class="prd_inquiry_bottom_answer_icon_div">
+                      <span class="answer_arrow"><i class="fas fa-arrow-right"></i></span>
+                      <span class="answer_icon">답변준비중</span>
+                    </div>
+
+                    <div class="prd_inquiry_bottom_answer_div">
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="prd_inquiry_box">
+              <div class="prd_inquiry_top">
+                <ul>
+                  <li class="inquiry_rating">답변 준비중</li>
+                  <li class="inquiry_user_title">인형 음성 나오게 하는거 어떻게 하나요?</li>
+                  <li class="inquiry_date">2020-12-08</li>
+                  <li class="inquiry_username">jangn****</li>
+                </ul>
+              </div>
+              <div class="prd_inquiry_bottom">
+                <div class="prd_inquiry_bottom_qanda">
+                  <div class="prd_inquiry_bottom_question">
+                    인형 음성 나오게 하는거 어떻게 하나요?
+                  </div>
+                  <div class="prd_inquiry_bottom_answer">
+                    <div class="prd_inquiry_bottom_answer_icon_div">
+                      <span class="answer_arrow"><i class="fas fa-arrow-right"></i></span>
+                      <span class="answer_icon">답변준비중</span>
+                    </div>
+
+                    <div class="prd_inquiry_bottom_answer_div">
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="prd_inquiry_box">
+              <div class="prd_inquiry_top">
+                <ul>
+                  <li class="inquiry_rating">답변완료</li>
+                  <li class="inquiry_user_title">인형 음성 나오게 하는거 어떻게 하나요?</li>
+                  <li class="inquiry_date">2020-12-08</li>
+                  <li class="inquiry_username">jangn****</li>
+                </ul>
+              </div>
+              <div class="prd_inquiry_bottom">
+                <div class="prd_inquiry_bottom_qanda">
+                  <div class="prd_inquiry_bottom_question">
+                    인형 음성 나오게 하는거 어떻게 하나요?
+                  </div>
+                  <div class="prd_inquiry_bottom_answer">
+                    <div class="prd_inquiry_bottom_answer_icon_div">
+                      <span class="answer_arrow"><i class="fas fa-arrow-right"></i></span>
+                      <span class="answer_icon">답변</span>
+                    </div>
+                    <div class="prd_inquiry_bottom_answer_div">
+                      인형 음성이 안나올경우엔 인형 안에 배터리가 장착되어있는지 확인해 주시고 없을시 박스 안에 동봉된 배터리로 장착하시고
+                      음성버튼을 누르시면 나오겠으니, 이후에 배터리 장착후에도 나오지 않는다면 문의사항에 남겨주시면 불량품
+                      교환 환불 안내 드리겠습니다.
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="prd_inquiry_box">
+              <div class="prd_inquiry_top">
+                <ul>
+                  <li class="inquiry_rating">답변완료</li>
+                  <li class="inquiry_user_title">인형 음성 나오게 하는거 어떻게 하나요?</li>
+                  <li class="inquiry_date">2020-12-08</li>
+                  <li class="inquiry_username">jangn****</li>
+                </ul>
+              </div>
+              <div class="prd_inquiry_bottom">
+                <div class="prd_inquiry_bottom_qanda">
+                  <div class="prd_inquiry_bottom_question">
+                    인형 음성 나오게 하는거 어떻게 하나요?
+                  </div>
+                  <div class="prd_inquiry_bottom_answer">
+                    <div class="prd_inquiry_bottom_answer_icon_div">
+                      <span class="answer_arrow"><i class="fas fa-arrow-right"></i></span>
+                      <span class="answer_icon">답변</span>
+                    </div>
+                    <div class="prd_inquiry_bottom_answer_div">
+                      인형 음성이 안나올경우엔 인형 안에 배터리가 장착되어있는지 확인해 주시고 없을시 박스 안에 동봉된 배터리로 장착하시고
+                      음성버튼을 누르시면 나오겠으니, 이후에 배터리 장착후에도 나오지 않는다면 문의사항에 남겨주시면 불량품
+                      교환 환불 안내 드리겠습니다.
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="prd_inquiry_box">
+              <div class="prd_inquiry_top">
+                <ul>
+                  <li class="inquiry_rating">답변완료</li>
+                  <li class="inquiry_user_title">인형 음성 나오게 하는거 어떻게 하나요?</li>
+                  <li class="inquiry_date">2020-12-08</li>
+                  <li class="inquiry_username">jangn****</li>
+                </ul>
+              </div>
+              <div class="prd_inquiry_bottom">
+                <div class="prd_inquiry_bottom_qanda">
+                  <div class="prd_inquiry_bottom_question">
+                    인형 음성 나오게 하는거 어떻게 하나요?
+                  </div>
+                  <div class="prd_inquiry_bottom_answer">
+                    <div class="prd_inquiry_bottom_answer_icon_div">
+                      <span class="answer_arrow"><i class="fas fa-arrow-right"></i></span>
+                      <span class="answer_icon">답변</span>
+                    </div>
+                    <div class="prd_inquiry_bottom_answer_div">
+                      인형 음성이 안나올경우엔 인형 안에 배터리가 장착되어있는지 확인해 주시고 없을시 박스 안에 동봉된 배터리로 장착하시고
+                      음성버튼을 누르시면 나오겠으니, 이후에 배터리 장착후에도 나오지 않는다면 문의사항에 남겨주시면 불량품
+                      교환 환불 안내 드리겠습니다.
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="prd_inquiry_box">
+              <div class="prd_inquiry_top">
+                <ul>
+                  <li class="inquiry_rating">답변완료</li>
+                  <li class="inquiry_user_title">인형 음성 나오게 하는거 어떻게 하나요?</li>
+                  <li class="inquiry_date">2020-12-08</li>
+                  <li class="inquiry_username">jangn****</li>
+                </ul>
+              </div>
+              <div class="prd_inquiry_bottom">
+                <div class="prd_inquiry_bottom_qanda">
+                  <div class="prd_inquiry_bottom_question">
+                    인형 음성 나오게 하는거 어떻게 하나요?
+                  </div>
+                  <div class="prd_inquiry_bottom_answer">
+                    <div class="prd_inquiry_bottom_answer_icon_div">
+                      <span class="answer_arrow"><i class="fas fa-arrow-right"></i></span>
+                      <span class="answer_icon">답변</span>
+                    </div>
+                    <div class="prd_inquiry_bottom_answer_div">
+                      인형 음성이 안나올경우엔 인형 안에 배터리가 장착되어있는지 확인해 주시고 없을시 박스 안에 동봉된 배터리로 장착하시고
+                      음성버튼을 누르시면 나오겠으니, 이후에 배터리 장착후에도 나오지 않는다면 문의사항에 남겨주시면 불량품
+                      교환 환불 안내 드리겠습니다.
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="prd_inquiry_box">
+              <div class="prd_inquiry_top">
+                <ul>
+                  <li class="inquiry_rating">답변완료</li>
+                  <li class="inquiry_user_title">인형 음성 나오게 하는거 어떻게 하나요?</li>
+                  <li class="inquiry_date">2020-12-08</li>
+                  <li class="inquiry_username">jangn****</li>
+                </ul>
+              </div>
+              <div class="prd_inquiry_bottom">
+                <div class="prd_inquiry_bottom_qanda">
+                  <div class="prd_inquiry_bottom_question">
+                    인형 음성 나오게 하는거 어떻게 하나요?
+                  </div>
+                  <div class="prd_inquiry_bottom_answer">
+                    <div class="prd_inquiry_bottom_answer_icon_div">
+                      <span class="answer_arrow"><i class="fas fa-arrow-right"></i></span>
+                      <span class="answer_icon">답변</span>
+                    </div>
+                    <div class="prd_inquiry_bottom_answer_div">
+                      인형 음성이 안나올경우엔 인형 안에 배터리가 장착되어있는지 확인해 주시고 없을시 박스 안에 동봉된 배터리로 장착하시고
+                      음성버튼을 누르시면 나오겠으니, 이후에 배터리 장착후에도 나오지 않는다면 문의사항에 남겨주시면 불량품
+                      교환 환불 안내 드리겠습니다.
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            </dv>
+          </div>
+
+
+          <style media="screen">
+            .paging_container {
+              width: 500px;
+              margin: 40px auto 40px;
+            }
+
+            .paging_container::after {
+              content: "";
+              display: table;
+              clear: both;
+            }
+
+            .paging_container ul {
+              display: table;
+              margin: 0 auto;
+            }
+
+            .paging_container ul li {
+              float: left;
+              margin-right: 15px;
+              text-align: center;
+            }
+
+            .paging_container ul li a {
+              display: inline-block;
+              width: 15px;
+              color: gray;
+              font-size: 20px
+            }
+
+            .paging_container ul li a:hover {
+              color: #F8B6B8;
+              font-weight: bolder;
+              transition: 0.2s;
+            }
+          </style>
+
+          <div class="paging_container">
+            <ul>
+              <li></li>
+              <li><a href="#" class="paging_selected">1</a></li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">3</a> </li>
+              <li><a href="#">4</a> </li>
+              <li><a href="#">5</a> </li>
+              <li><a href="#"><i class="fas fa-angle-right"></i></a></li>
+              <li><a href="#"><i class="fas fa-angle-double-right"></i></a></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+  </div>
+  <script>
+    $(".prd_inquiry_top").eq(0).click(function() {
+      $(".prd_inquiry_bottom").eq(0).toggle(1).css("display", "block");
+    });
+    $(".prd_inquiry_top").eq(1).click(function() {
+      $(".prd_inquiry_bottom").eq(1).toggle(1).css("display", "block");
+    });
+    $(".prd_inquiry_top").eq(2).click(function() {
+      $(".prd_inquiry_bottom").eq(2).toggle(1).css("display", "block");
+    });
+    $(".prd_inquiry_top").eq(3).click(function() {
+      $(".prd_inquiry_bottom").eq(3).toggle(1).css("display", "block");
+    });
+    $(".prd_inquiry_top").eq(4).click(function() {
+      $(".prd_inquiry_bottom").eq(4).toggle(1).css("display", "block");
+    });
+    $(".prd_inquiry_top").eq(5).click(function() {
+      $(".prd_inquiry_bottom").eq(5).toggle(1).css("display", "block");
+    });
+    $(".prd_inquiry_top").eq(6).click(function() {
+      $(".prd_inquiry_bottom").eq(6).toggle(1).css("display", "block");
+    });
+    $(".prd_inquiry_top").eq(7).click(function() {
+      $(".prd_inquiry_bottom").eq(7).toggle(1).css("display", "block");
+    });
+  </script>
+  <script type="text/javascript">
+    $("#btn_prd_detail").click(function() {
+      $('html, body').animate({
+        scrollTop: $(".prd_detail_container").offset().top - 170
+      }, 1);
+    });
+
+    $("#btn_prd_review").click(function() {
+      $('html, body').animate({
+        scrollTop: $(".prd_review_container").offset().top - 170
+      }, 1);
+    });
+
+    $("#btn_prd_inquiry").click(function() {
+      $('html, body').animate({
+        scrollTop: $(".prd_inquiry_container").offset().top - 170
+      }, 1);
+    });
+  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+  <script type="text/javascript">
+    var nav = $(".content_container_sticky ul li");
+    var cont = $(".content_container > div");
+    $(window).scroll(function() {
+      var wScroll = $(this).scrollTop();
+
+
+
+      if (wScroll <= cont.eq(0).offset().top - 171) {
+        nav.removeClass("btn_active");
+      }
+      if (wScroll >= cont.eq(0).offset().top - 171) {
+        nav.removeClass("btn_active");
+        nav.eq(0).addClass("btn_active");
+      }
+      if (wScroll >= cont.eq(1).offset().top - 171) {
+        nav.removeClass("btn_active");
+        nav.eq(1).addClass("btn_active");
+      }
+      if (wScroll >= cont.eq(2).offset().top - 171) {
+        nav.removeClass("btn_active");
+        nav.eq(2).addClass("btn_active");
+      }
+    });
+  </script>
+  <!-- 스티키, 상품상세 div end-->
+  <script type="text/javascript">
+
+  </script>
+
+  <!-- Swiper JS -->
+
+  <script src="swiper-5.4.5/package/js/swiper.min.js"></script>
+
+  <!-- Initialize Swiper -->
+  <script>
+    var swiper1 = new Swiper('.swiper1', {
+      slidesPerView: 5,
+      spaceBetween: 20,
+      loop: true,
+      pagination: {
+        el: '.swiper-pagination',
+        type: 'fraction',
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+    var swiper2 = new Swiper('.swiper2', {
+      slidesPerView: 5,
+      spaceBetween: 20,
+      loop: true,
+      pagination: {
+        el: '.swiper-pagination',
+        type: 'fraction',
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+    var swiper3 = new Swiper('.swiper3', {
+      slidesPerView: 5,
+      spaceBetween: 20,
+      pagination: {
+        el: '.swiper-pagination',
+        type: 'fraction',
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+  </script>
+
+  <script>
+    function openNav() {
+      document.getElementById("mySidenav").style.width = "360px";
+      document.getElementById("main").style.marginRight = "360px";
+    }
+
+    function closeNav() {
+      document.getElementById("mySidenav").style.width = "0";
+      document.getElementById("main").style.marginRight = "0";
+    }
+  </script>
+
+  <style>
+    #footer {
+      width: 100%;
+      height: 300;
+      background: #4c4852;
+    }
+
+    #footer_inner {
+      width: 1200px;
+      height: 300px;
+      margin: 0 auto;
+      position: relative;
+      text-align: center;
+      opacity: .7;
+    }
+
+    .footer_logo {
+      position: absolute;
+      top: 42px;
+      left: 510px;
+      max-width: 200px;
+    }
+
+    .footer_text {
+      position: absolute;
+      top: 150px;
+      left: 390px;
+      font: 13px "NanumBarunGothic";
+      color: #fff;
+    }
+  </style>
+  <div id="footer">
+    <div id="footer_inner">
+      <img src="images/footer_logo.png." class="footer_logo">
+
+      <p class="footer_text">
+        (주)컬러파레트&nbsp&nbsp|&nbsp&nbsp사업자등록번호 214-88-07825&nbsp&nbsp|&nbsp&nbsp대표이사 김철수 <br /><br />
+        주소: (06653) 서울특별시 서초구 반포대로 12길 41 &nbsp&nbsp|&nbsp&nbsp ARS 1544-0070 <br /><br />
+        본사 대표전화 및 가맹상담전화 : 010-7732-8394&nbsp&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp&nbsp통신판매업신고번호 제 833호<br /><br />
+        COPYRIGHT © Colorpalette, Inc. All rights reserved
+      </p>
+    </div>
+  </div>
+  </div>
+</body>
+
+</html>
